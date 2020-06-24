@@ -1,0 +1,11 @@
+---
+- name: Installing all updates with zypper
+  hosts: [sas_servers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: doing the update
+      zypper:
+        name: '*'
+        state: latest
