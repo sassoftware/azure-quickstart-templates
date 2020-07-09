@@ -1,0 +1,56 @@
+---
+- name: replace variables in response files
+  template:
+    src: "/sas/install/responsefiles/{{ item }}.j2"
+    dest: "/sasshare/responsefiles/{{ item }}"
+    owner: sasinst
+    group: sas
+  with_items:
+    - compute_config.txt
+    - metadata_config.txt
+    - midtier_config.txt
+    - va_controller_config.txt
+
+- name: config sas on metadata
+  hosts: [metadata_servers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+     - name: Run metadata config response file
+       become: yes
+       shell: >-
+         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/metadata_config.txt
+
+- name: config sas on va controller
+  hosts: [va_controllers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+     - name: Run va controller config response file
+       become: yes
+       shell: >-
+         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/va_controller_config.txt
+
+- name: config sas on compute
+  hosts: [compute_servers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+     - name: Run compute config response file
+       become: yes
+       shell: >-
+         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/compute_config.txt
+
+- name: config sas on midtier
+  hosts: [midtier_servers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+     - name: Run midtier config response file
+       become: yes
+       shell: >-
+         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/midtier_config.txt

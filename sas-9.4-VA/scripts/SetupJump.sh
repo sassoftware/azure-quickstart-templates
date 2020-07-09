@@ -83,18 +83,18 @@ mountSASRaidRHEL() {
 
 setupSasShareMountRHEL() {
     # first step is to install the azure-cli
-    yum install -y yum-utils 
+    yum install -y yum-utils
     echo "Creating the share on the storage account."
     yum install -y rh-python36 gcc time
     /opt/rh/rh-python36/root/usr/bin/pip3 install azure-cli
     /opt/rh/rh-python36/root/usr/bin/az storage share create --name ${azure_storage_files_share} --connection-string "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=${azure_storage_account};AccountKey=${azure_storage_files_password}"
-    
-    # second we install the cifs filesystem 
+
+    # second we install the cifs filesystem
     echo "setup cifs"
     cifs_server_fqdn="${azure_storage_account}.file.core.windows.net"
     yum install -y cifs-utils
 
-    # now we create a credentials file to do the mounting of the azure files store. 
+    # now we create a credentials file to do the mounting of the azure files store.
     if [ ! -d "/etc/smbcredentials" ]; then
         sudo mkdir /etc/smbcredentials
     fi
@@ -126,11 +126,11 @@ setupSasShareMountSUSE() {
     echo "Creating the share on the storage account."
     az storage share create --name ${azure_storage_files_share} --connection-string "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=${azure_storage_account};AccountKey=${azure_storage_files_password}"
 
-    # second we install the cifs filesystem 
+    # second we install the cifs filesystem
     echo "setup cifs"
     cifs_server_fqdn="${azure_storage_account}.file.core.windows.net"
 
-    # now we create a credentials file to do the mounting of the azure files store. 
+    # now we create a credentials file to do the mounting of the azure files store.
     if [ ! -d "/etc/smbcredentials" ]; then
         sudo mkdir /etc/smbcredentials
     fi
@@ -154,7 +154,7 @@ setupSasShareMountSUSE() {
 }
 
 setupSUDOForAnsible() {
-    # remove the requiretty from the sudoers file. Per bug https://bugzilla.redhat.com/show_bug.cgi?id=1020147 this is unnecessary and has been removed on future releases of redhat, 
+    # remove the requiretty from the sudoers file. Per bug https://bugzilla.redhat.com/show_bug.cgi?id=1020147 this is unnecessary and has been removed on future releases of redhat,
     # so is just a slowdown that denies pipelining and makes the non-tty session from azure extentions break on sudo without faking one (my prefered method is ssh back into the same user, but seriously..)
     sed -i -e '/Defaults    requiretty/{ s/.*/# Defaults    requiretty/ }' /etc/sudoers
 }
@@ -196,6 +196,7 @@ downloadAllFiles() {
     curl --retry 10 --max-time 60 --fail --silent --show-error "$target_url" > "$target_file_name"
     chmod $chmod_attr "$target_file_name"
     done <file_list.txt
+    cp -R "${INSTALL_DIR}/responsefiles" "${DIRECTORY_NFS_SHARE}/"
 }
 
 installAnsibleSUSE() {

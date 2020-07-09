@@ -1,0 +1,150 @@
+# Response file for the SAS Deployment Wizard
+# Created: Jun 24, 2020 6:21:45 PM
+#
+# Responses with multiple options are separated with / characters.
+
+# Select Deployment Task
+# Select the deployment task you would like to perform.
+#START_TASK=install/depot/manage
+ START_TASK=install
+
+# Specify SAS Home
+# Specify the location where SAS software will be installed on this machine.
+#SAS_HOME=<full path>
+ SAS_HOME=/sas/SASHome
+
+# Select Deployment Type
+# Select the type of deployment you want to perform.
+#DEPLOYMENT_TYPE=planned/nonplanned/additional
+ DEPLOYMENT_TYPE=planned
+#PLANNED_INSTALL=yes/no
+ PLANNED_INSTALL=no
+#PLANNED_CONFIGURE=yes/no
+ PLANNED_CONFIGURE=yes
+
+# Specify Deployment Plan
+# Specify a customized or standard deployment plan.
+#PLAN_TYPE=customized/standard
+ PLAN_TYPE=customized
+#CUSTOMIZED_PLAN_PATH=<full path - only if PLAN_TYPE=customized>
+ CUSTOMIZED_PLAN_PATH=/sasshare/plan.xml
+#STANDARD_PLAN_NAME=<standard plan name - only if PLAN_TYPE=standard>
+ STANDARD_PLAN_NAME=
+
+# Select Deployment Step
+# Select the deployment step from your deployment plan that you want to configure on this machine. When you select a deployment step, the products installed on the associated machine according to the selected plan are listed in the lower pane.
+#MACHINE_SELECTION=<machine name>
+# or
+#MACHINE_SELECTION=step <#>
+ MACHINE_SELECTION=step 3
+
+# Select Regional Settings
+# Select the appropriate regional settings for your SAS software.
+#REGION_SETTING=<region setting code>
+ REGION_SETTING=en_US
+#UNICODE_SERVER=yes/no
+ UNICODE_SERVER=no
+
+# Select Configuration Prompting Level
+# Select the level of prompting for configuration information dialogs.
+#CONFIGURATION_PROMPTS=minimum/moderate/full
+ CONFIGURATION_PROMPTS=moderate
+
+# Specify Configuration Information
+# Specify the configuration directory and the level within the configuration directory to create your SAS software configuration.
+#CONFIGURATION_DIRECTORY=<full path>
+ CONFIGURATION_DIRECTORY=/sas/config
+#CONFIGURATION_LEVEL=<subdirectory>
+ CONFIGURATION_LEVEL=Lev1
+
+# Local Machine Name
+# Specify the local host name information.
+#os.localhost.fqdn.host.name=<text value - leave blank or remove to default on the machine where the SAS Deployment Wizard is running>
+ os.localhost.fqdn.host.name=compute-0.internal.cloudapp.net
+#os.localhost.host.name=<text value - leave blank or remove to default on the machine where the SAS Deployment Wizard is running>
+ os.localhost.host.name=compute-0
+
+# Migration Information
+# Specify migration information if performing migration for this deployment.
+#PERFORM_MIGRATION=yes/no
+ PERFORM_MIGRATION=no
+#MIGRATION_PACKAGE=<full path>
+ MIGRATION_PACKAGE=
+
+# SAS Metadata Server
+# Specify SAS Metadata Server connection information.
+#iomsrv.metadatasrv.host=<text value>
+ iomsrv.metadatasrv.host=metadata-0
+#iomsrv.metadatasrv.port=<port number value>
+ iomsrv.metadatasrv.port=8561
+
+# Deployment Accounts: Type of Accounts
+# Select the type of accounts chosen when configuring the Metadata Server. Your connection to the Metadata Server could be refused if you select incorrectly.
+#user.account.type.as=internal/externak
+l
+ user.account.type.as=internal
+
+# SAS Internal Account: Unrestricted Administrator
+# Specify the metadata password for the first Unrestricted Administrator identity. The Unrestricted Administrator has unrestricted administrative access to metadata.
+#oma.person.admin.login.passwd.internal.as=<password value>
+ oma.person.admin.login.passwd.internal.as={{ AdminPassword }}
+#oma.person.admin.login.share_passwd=yes/no
+ oma.person.admin.login.share_passwd=no
+
+# Create SAS Application Server Context
+# Specify whether to create a new SAS application server context or use an existing one.
+#oma.appserver.create_context=yes/no
+ oma.appserver.create_context=no
+
+# SAS Web Infrastructure Platform Data Server
+# Specify information for SAS Web Infrastructure Platform Data Server.
+#iomsrv.webinfdsvrc.host=<text value>
+ iomsrv.webinfdsvrc.host=compute-0.internal.cloudapp.net
+#iomsrv.webinfdsvrc.port=<port number value>
+ iomsrv.webinfdsvrc.port=9432
+#iomsrv.webinfdsvrc.userid=<user name value>
+ iomsrv.webinfdsvrc.userid=dbmsowner
+#iomsrv.webinfdsvrc.passwd=<password value>
+ iomsrv.webinfdsvrc.passwd={{ AdminPassword }}
+
+# Scheduling Services Cache Locator
+# Specify the Scheduling Services Cache locator information.
+#wipschedsvcs.cache.locator.port=<text value>
+ wipschedsvcs.cache.locator.port=41415
+
+# Scheduling Services DIP JobRunner
+# Toggle startup state for the Scheduling Services DIP JobRunner.
+#wipschedsvcs.dipjobrunner.autostart=yes/no
+ wipschedsvcs.dipjobrunner.autostart=no
+
+# IP Multicast Version
+# Specify the IP version to use for the IP Multicast address.
+#midtier.multicast.ip.version=ipv4/ipv6
+ midtier.multicast.ip.version=ipv4
+
+# IP Multicast
+# Specify IP Multicast information to allow status communication amongst applications.
+#midtier.multicast.address=<IP multicast address>
+ midtier.multicast.address=239.2.1.4
+#midtier.multicast.port=<port number value>
+ midtier.multicast.port=8561
+#midtier.multicast.ip.ttl=<number value>
+ midtier.multicast.ip.ttl=1
+#midtier.multicast.auth.token.is_enabled=yes/no
+ midtier.multicast.auth.token.is_enabled=no
+
+# SAS Environment Manager Agent Configuration
+# Specify the SAS Environment Manager/Agent information.
+#hyperagntc.agent.setup.camIP=<text value>
+ hyperagntc.agent.setup.camIP=visual-analytics-controler
+#hyperagntc.agent.setup.camPort=<port number value>
+ hyperagntc.agent.setup.camPort=7080
+#hyperagntc.agent.setup.camSSLPort=<port number value>
+ hyperagntc.agent.setup.camSSLPort=7443
+#hyperagntc.agent.setup.agentPort=<port number value>
+ hyperagntc.agent.setup.agentPort=2144
+
+# SAS Internal Account: SAS Environment Manager Service Account
+# Specify the metadata password for the service identity for SAS Environment Manager Service.
+#hyperagntc.admin.passwd.as=<password value>
+ hyperagntc.admin.passwd.as={{ AdminPassword }}

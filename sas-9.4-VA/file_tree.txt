@@ -3,6 +3,7 @@
 /ansible/step01_wait_for_servers.yaml|666
 /ansible/step02_install_os_updates.yaml|666
 /ansible/step03_download_mirror_and_licenses.yaml|666
+/ansible/step04_install_sas.yaml|666
 /azuredeploy.json|666
 /scripts/RHEL_raid_azure_data.sh|777
 /scripts/SLES_raid_azure_data.sh|777
@@ -16,3 +17,11 @@
 /subtemplates/installextension.json|666
 /subtemplates/paramlb.json|666
 /subtemplates/paramvm.json|666
+/responsefiles/sdwresponse_VA_config.properties|666
+/responsefiles/sdwresponse_VA_install.properties|666
+/responsefiles/sdwresponse_compute_config.properties|666
+/responsefiles/sdwresponse_compute_install.properties|666
+/responsefiles/sdwresponse_metadata_config.properties|666
+/responsefiles/sdwresponse_metadata_install.properties|666
+/responsefiles/sdwresponse_midtier_config.properties|666
+/responsefiles/sdwresponse_midtier_install.properties|666

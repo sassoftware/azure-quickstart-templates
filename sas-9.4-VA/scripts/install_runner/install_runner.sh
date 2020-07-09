@@ -39,3 +39,5 @@ ansible-playbook -i ${INVENTORY_FILE} \
 	-e "PLANFILE_DOWNLOAD_LOCATION=$planfile_uri" \
 	-v step03_download_mirror_and_licenses.yaml
 
+#ansible-playbook -i ${INVENTORY_FILE} \
+#        -v step04_install_sas.yaml

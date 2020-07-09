@@ -1300,6 +1300,19 @@
                     }
                 ]
             }
-        }
-    ]
+        },
+	{
+	    "apiVersion": "2019-10-01",
+	    "name": "pid-a04b9960-695b-556c-9e3d-2c5752ffbdd7",
+	    "type": "Microsoft.Resources/deployments",
+	    "properties": {
+		"mode": "Incremental",
+		"template": {
+		    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+		    "contentVersion": "1.0.0.0",
+		    "resources": []
+		}
+	    }
+	}
+     ]
 }

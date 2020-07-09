@@ -1,0 +1,56 @@
+---
+- name: replace variables in response files
+  template:
+    src: "/sas/install/responsefiles/{{ item }}.j2"
+    dest: "/sasshare/responsefiles/{{ item }}"
+    owner: sasinst
+    group: sas
+  with_items:
+    - compute_install.txt
+    - metadata_install.txt
+    - midtier_install.txt
+    - va_controller_install.txt
+
+- name: install sas on metadata
+  hosts: [metadata_servers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+     - name: Run metadata install response file
+       become: yes
+       shell: >-
+         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/metadata_install.txt
+
+- name: install sas on midtier
+  hosts: [midtier_servers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+     - name: Run midtier install response file
+       become: yes
+       shell: >-
+         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/midtier_install.txt
+
+- name: install sas on compute
+  hosts: [compute_servers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+     - name: Run compute install response file
+       become: yes
+       shell: >-
+         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/compute_install.txt
+
+- name: install sas on va controller
+  hosts: [va_controllers]
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+     - name: Run va controller install response file
+       become: yes
+       shell: >-
+         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/va_controller_install.txt
