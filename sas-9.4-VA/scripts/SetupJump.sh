@@ -196,7 +196,6 @@ downloadAllFiles() {
     curl --retry 10 --max-time 60 --fail --silent --show-error "$target_url" > "$target_file_name"
     chmod $chmod_attr "$target_file_name"
     done <file_list.txt
-    cp -R "${INSTALL_DIR}/responsefiles" "${DIRECTORY_NFS_SHARE}/"
 }
 
 installAnsibleSUSE() {
@@ -220,7 +219,7 @@ makeAnsibleInventory() {
     for (( i=0; i<$count_of_va_worker; i++)); do
         echo "visual-analytics-worker-${i} ansible_connection=ssh" >> $INVENTORY_FILE
     done
-    echo "visual-analytics-controler ansible_connection=ssh" >> $INVENTORY_FILE
+    echo "visual-analytics-controller ansible_connection=ssh" >> $INVENTORY_FILE
     cat  <<END >>$INVENTORY_FILE
 [sas_servers:children]
 midtier_servers
@@ -246,7 +245,7 @@ END
         echo "visual-analytics-worker-${i}" >> $INVENTORY_FILE
     done
     echo "[va_controllers]" >> $INVENTORY_FILE
-    echo "visual-analytics-controler" >> $INVENTORY_FILE
+    echo "visual-analytics-controller" >> $INVENTORY_FILE
 }
 
 waitForSasServers() {

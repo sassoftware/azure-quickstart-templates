@@ -9,9 +9,9 @@
   become: yes
   gather_facts: false
   tasks:
-    - name: wait up to 20 min for all servers to be alive.
+    - name: wait up to 30 min for all servers to be alive.
       wait_for_connection:
         connect_timeout: 5
         delay: 0
         sleep: 5
-        timeout: 1200
+        timeout: 1800

@@ -33,13 +33,16 @@ if [[ "$depot_uri" == "$DEPOT_DUMMY_FOR_QUICK_EXIT_VALUE" ]]; then
 	exit 0
 fi
 
-ansible-playbook -i ${INVENTORY_FILE} -v step03_prereqs.yaml
+ansible-playbook -i ${INVENTORY_FILE} -vvv step03_prereqs.yaml
 
 ansible-playbook -i ${INVENTORY_FILE} \
 	-e "DEPOT_DOWNLOAD_LOCATION=$depot_uri" \
 	-e "LICENCE_DOWNLOAD_LOCATION=$license_file_uri" \
 	-e "PLANFILE_DOWNLOAD_LOCATION=$planfile_uri" \
-	-v step04_download_mirror_and_licenses.yaml
+	-vvv step04_download_mirror_and_licenses.yaml
 
-#ansible-playbook -i ${INVENTORY_FILE} \
-#        -v step04_install_sas.yaml
+ansible-playbook -i ${INVENTORY_FILE} -vvv step05_preinstall_sas.yaml
+
+ansible-playbook -i ${INVENTORY_FILE} -vvv step06_install_sas.yaml
+
+ansible-playbook -i ${INVENTORY_FILE} -vvv step07_config_sas.yaml

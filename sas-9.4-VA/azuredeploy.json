@@ -151,7 +151,7 @@
                 5
             ]
         },
-        "Visual Analytics Controler Size": {
+        "Visual Analytics Controller Size": {
             "defaultValue": "Standard_D8s_v3",
             "type": "String",
             "allowedValues": [
@@ -319,7 +319,7 @@
                 "diskscript": "scripts/SLES_raid_azure_data.sh"
             }
         },
-        "Visual Analytics VM Name Base - Controller": "[concat(parameters('Visual Analytics VM Name Base'),'-controler')]",
+        "Visual Analytics VM Name Base - Controller": "[concat(parameters('Visual Analytics VM Name Base'),'-controller')]",
         "Visual Analytics VM Name Base - Worker": "[concat(parameters('Visual Analytics VM Name Base'),'-worker')]",
         "resourceGroupUniqueString": "[uniqueString(resourceGroup().id)]",
         "StorageGroupName": "[toLower(concat('storage0group0', substring(variables('resourceGroupUniqueString'),0,10)))]",
@@ -596,7 +596,7 @@
                         "value": "[parameters('location')]"
                     },
                     "lb_name": {
-                        "value": "[concat(parameters('Compute VM Name Base'),'-loadbalancer')]"
+                        "value": "[concat(parameters('Mid-Tier VM Name Base'),'-loadbalancer')]"
                     },
                     "public_ip": {
                         "value": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('Virtual Network Name'),'-ip-loadbalancer'))]"
@@ -676,7 +676,7 @@
                         "value": ""
                     },
                     "loadbalancer_id_or_empty": {
-                        "value": "[concat(resourceId('Microsoft.Network/applicationGateways',concat(parameters('Compute VM Name Base'),'-loadbalancer')),'/backendAddressPools/default-backend')]"
+                        "value": ""
                     }
                 }
             },
@@ -778,13 +778,13 @@
                         "value": "[variables('Visual Analytics VM Name Base - Controller')]"
                     },
                     "vm_size": {
-                        "value": "[parameters('Visual Analytics Controler Size')]"
+                        "value": "[parameters('Visual Analytics Controller Size')]"
                     },
                     "datadisk_size": {
                         "value": 128
                     },
                     "datadisk_count": {
-                        "value": "[variables('storageProfile')[parameters('Visual Analytics Controler Size')]]"
+                        "value": "[variables('storageProfile')[parameters('Visual Analytics Controller Size')]]"
                     },
                     "proximity_group_name": {
                         "value": "[parameters('Proximity PlacementGroup Name')]"
@@ -959,7 +959,7 @@
                         "value": ""
                     },
                     "loadbalancer_id_or_empty": {
-                        "value": ""
+                        "value": "[concat(resourceId('Microsoft.Network/applicationGateways',concat(parameters('Mid-Tier VM Name Base'),'-loadbalancer')),'/backendAddressPools/default-backend')]"
                     }
                 }
             },

@@ -1,15 +1,39 @@
 ---
-- name: replace variables in response files
-  template:
-    src: "/sas/install/responsefiles/{{ item }}.j2"
-    dest: "/sasshare/responsefiles/{{ item }}"
-    owner: sasinst
-    group: sas
-  with_items:
-    - compute_install.txt
-    - metadata_install.txt
-    - midtier_install.txt
-    - va_controller_install.txt
+- name: Copy response files to sasshare
+  hosts: [localhost]
+  become_user: root
+  become: yes
+  gather_facts: false
+  vars_files:
+    - /sas/install/ansible/vars.yaml
+  tasks:
+     - name: create the responsefiles directory in sasshare
+       file:
+         path: /sasshare/responsefiles
+         state: directory
+         
+     - name: create the scripts directory in sasshare
+       file:
+         path: /sasshare/scripts
+         state: directory
+
+     - name: copy the install script to sasshare
+       copy:
+         src: ../scripts/run_install_as_user.sh
+         dest: /sasshare/scripts
+         mode: '0755'
+
+     - name: replace variables in response files
+       template:
+         src: "/sas/install/responsefiles/{{ item }}.j2"
+         dest: "/sasshare/responsefiles/{{ item }}"
+         owner: sasinst
+         group: sas
+       with_items:
+         - compute_install.txt
+         - metadata_install.txt
+         - midtier_install.txt
+         - va_controller_install.txt
 
 - name: install sas on metadata
   hosts: [metadata_servers]
@@ -20,7 +44,12 @@
      - name: Run metadata install response file
        become: yes
        shell: >-
-         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/metadata_install.txt
+         /sasshare/scripts/run_install_as_user.sh sasinst /sasshare/responsefiles/metadata_install.txt
+
+     - name: Run setuid.sh
+       become: yes
+       shell: >-
+         /sas/SASHome/SASFoundation/9.4/utilities/bin/setuid.sh
 
 - name: install sas on midtier
   hosts: [midtier_servers]
@@ -28,10 +57,29 @@
   become: yes
   gather_facts: false
   tasks:
+     - name: create vfabric folders
+       file:
+         path: /etc/opt/vmware/vfabric
+         state: directory
+
+     - name: Change ownership of vmware folder
+       file:
+         path: /etc/opt/vmware
+         owner: sasinst
+         group: sas
+         mode: '0755'
+
+     - name: Change ownership of vfabric folder
+       file:
+         path: /etc/opt/vmware/vfabric
+         owner: sasinst
+         group: sas
+         mode: '0755'
+
      - name: Run midtier install response file
        become: yes
        shell: >-
-         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/midtier_install.txt
+         /sasshare/scripts/run_install_as_user.sh sasinst /sasshare/responsefiles/midtier_install.txt
 
 - name: install sas on compute
   hosts: [compute_servers]
@@ -42,7 +90,7 @@
      - name: Run compute install response file
        become: yes
        shell: >-
-         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/compute_install.txt
+         /sasshare/scripts/run_install_as_user.sh sasinst /sasshare/responsefiles/compute_install.txt
 
 - name: install sas on va controller
   hosts: [va_controllers]
@@ -53,4 +101,9 @@
      - name: Run va controller install response file
        become: yes
        shell: >-
-         /sasshare/depot/setup.sh -quiet -loglevel 2 -responsefile /sasshare/responsefiles/va_controller_install.txt
+         /sasshare/scripts/run_install_as_user.sh sasinst /sasshare/responsefiles/va_controller_install.txt
+
+     - name: Run setuid.sh
+       become: yes
+       shell: >-
+         /sas/SASHome/SASFoundation/9.4/utilities/bin/setuid.sh
