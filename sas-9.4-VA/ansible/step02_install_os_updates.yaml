@@ -14,10 +14,10 @@
         name: '*'
         state: latest
 
-     - name: install xauth
-       package:
-         name: xauth
-         state: latest
+    - name: install xauth
+      package:
+        name: xauth
+        state: latest
          
 - name: Installing all updates with zypper
   hosts: [sas_servers]
