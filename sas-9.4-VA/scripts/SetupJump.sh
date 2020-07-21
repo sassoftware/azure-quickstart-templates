@@ -3,7 +3,6 @@ set -e
 set -v
 set -x
 
-createEnvironmentFile() {
 cat << EOF > /tmp/sasinstall.env
 export INSTALL_USER="${1}"
 export azure_storage_account="${2}"
@@ -26,7 +25,7 @@ export ANSIBLE_DIR="\${INSTALL_DIR}/ansible"
 export INVENTORY_FILE="\${ANSIBLE_DIR}/inventory.ini"
 export DEPOT_DUMMY_FOR_QUICK_EXIT_VALUE=""
 EOF
-}
+
 
 main() {
     echo "NON JUMP RUN"
@@ -264,6 +263,6 @@ END
 }
 
 ## First things first, we are going to map all the inputs to variables
-createEnvironmentFile $@
+#createEnvironmentFile $@
 
 main
