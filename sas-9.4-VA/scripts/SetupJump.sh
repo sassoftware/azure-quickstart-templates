@@ -15,8 +15,6 @@ export count_of_midtier="${8}"
 export count_of_metadata="${9}"
 export count_of_compute="${10}"
 export count_of_va_worker="${11}"
-export planfile_uri="${12}"
-export license_file_uri="${13}"
 
 
 export DIRECTORY_NFS_SHARE="/sasshare"

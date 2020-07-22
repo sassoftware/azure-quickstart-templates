@@ -15,20 +15,6 @@
                 "description": "The uri to download the depot from as currently stored in Azure Blob Store"
             }
         },
-        "SAS License Location": {
-            "defaultValue": "",
-            "type": "String",
-            "metadata": {
-                "description": "Specify whether to create a new or existing virtual network for the VMs.  If using an existing virtual network it must have subnets: GatewaySubnet, AzureBastionSubnet, computeSubnet, midtierSubnet, metadataSubnet, and jumpSubnet."
-            }
-        },
-        "SAS Plan File Location": {
-            "defaultValue": "",
-            "type": "String",
-            "metadata": {
-                "description": "OPTIONAL: the download location for the planfile. If none is provided, it is assumed that the planfile is in your depot under <depot root folder>/planfiles/plan.xml"
-            }
-        },
         "Use a New or Existing Virtual Network?": {
             "type": "string",
             "defaultValue": "New",
@@ -53,7 +39,7 @@
         },
         "Operating System Image": {
             "type":"string",
-            "defaultValue": "Red Hat Enterprise Linux 7 (latest, LVM)",
+            "defaultValue": "SUSE Enterprise Linux 12 SP5 +Patching",
             "allowedValues": [
                 "Red Hat Enterprise Linux 7 (latest, LVM)",
                 "SUSE Enterprise Linux 12 SP5 +Patching"
@@ -1019,7 +1005,7 @@
                     },
                     "post_install_actions": {
                         "value":  {
-                            "commandToExecute": "[ concat('set -o pipefail; ./SetupJump.sh \"', variables('PrimaryUserName'), '\" \"', variables('StorageGroupName'), '\" \"', variables('AzureFilesViyaShare'), '\" \"', listKeys(variables('StorageGroupName'),'2019-06-01').keys[0].value, '\" \"', parameters('_artifactsLocation'), '\" \"', parameters('_artifactsLocationSasToken'), '\" \"', parameters('SAS Depot Location'), '\" \"', parameters('Mid-Tier VM Count'), '\" \"', parameters('Metadata VM Count'), '\" \"', parameters('Compute VM Count'), '\" \"', parameters('Visual Analytics Worker Count'), '\" \"', parameters('SAS Plan File Location'), '\" \"', parameters('SAS License Location'), '\"  2>&1 | tee /tmp/prerequisites.log')]",
+                            "commandToExecute": "[ concat('set -o pipefail; ./SetupJump.sh \"', variables('PrimaryUserName'), '\" \"', variables('StorageGroupName'), '\" \"', variables('AzureFilesViyaShare'), '\" \"', listKeys(variables('StorageGroupName'),'2019-06-01').keys[0].value, '\" \"', parameters('_artifactsLocation'), '\" \"', parameters('_artifactsLocationSasToken'), '\" \"', parameters('SAS Depot Location'), '\" \"', parameters('Mid-Tier VM Count'), '\" \"', parameters('Metadata VM Count'), '\" \"', parameters('Compute VM Count'), '\" \"', parameters('Visual Analytics Worker Count'), '\"  2>&1 | tee /tmp/prerequisites.log')]",
                             "fileUris": [
                                 "[concat(uri(parameters('_artifactsLocation'), 'scripts/SetupJump.sh'), parameters('_artifactsLocationSasToken'))]"
                             ]
