@@ -27,7 +27,7 @@
 #PLAN_TYPE=customized/standard
  PLAN_TYPE=customized
 #CUSTOMIZED_PLAN_PATH=<full path - only if PLAN_TYPE=customized>
- CUSTOMIZED_PLAN_PATH=/sasshare/plan.xml
+ CUSTOMIZED_PLAN_PATH=/sasshare/depot/plan.xml
 #STANDARD_PLAN_NAME=<standard plan name - only if PLAN_TYPE=standard>
  STANDARD_PLAN_NAME=
 
@@ -146,7 +146,7 @@
 #oma.person.admin.login.share_passwd=yes/no
  oma.person.admin.login.share_passwd=yes
 
-# SAS Internal Account: Trusted User 
+# SAS Internal Account: Trusted User
 # Specify the metadata password for the Trusted User identity. The Trusted User is a privileged service account that can act on behalf of other users on a connection to the metadata server.
 #oma.person.trustusr.login.passwd.internal.as=<password value>
  oma.person.trustusr.login.passwd.internal.as={{ AdminPassword }}
@@ -157,7 +157,7 @@
  login.webanon.is_enabled=yes
 
 # SAS Internal Account: Anonymous Web User
-# Specify the metadata password for the anonymous web user identity. 
+# Specify the metadata password for the anonymous web user identity.
 #oma.person.webanon.login.passwd.internal=<password value>
  oma.person.webanon.login.passwd.internal={{ AdminPassword }}
 
@@ -167,7 +167,7 @@
  bicentralmid.guest.access.is_enabled=no
 
 # E-mail Server
-# Specify e-mail server information. 
+# Specify e-mail server information.
 #server.mailsrv.host=<text value>
  server.mailsrv.host=hostname.unx.sas.com
 #server.mailsrv.port=<port number value>
@@ -223,7 +223,7 @@
  webappsrv.server1.name=SASServer1
 
 # Web Application Server: Server Ports
-# 
+#
 #webappsrv.server1.http.port.actual=<port number value>
  webappsrv.server1.http.port.actual=8080
 #webappsrv.server1.jmx.port=<port number value>
@@ -237,7 +237,7 @@
  webappsrv.server2.name=SASServer2
 
 # Web Application Server: Server Ports
-# 
+#
 #webappsrv.server2.http.port.actual=<port number value>
  webappsrv.server2.http.port.actual=8180
 #webappsrv.server2.jmx.port=<port number value>
@@ -251,7 +251,7 @@
  webappsrv.server12.name=SASServer12
 
 # Web Application Server: Server Ports
-# 
+#
 #webappsrv.server12.http.port.actual=<port number value>
  webappsrv.server12.http.port.actual=9180
 #webappsrv.server12.jmx.port=<port number value>
@@ -265,7 +265,7 @@
  webapp.auto_deploy=yes
 
 # Web Applications: White List of Sites Allowed to Link to This SAS Installation
-# For security reasons, websites that directly link to your SAS installation via URLs, such as reports, Single Sign-on Servers, and corporate sites, need to be explicitly included in the white list. Host names that are part of the SAS Deployment Wizard configuration are automatically included in white list processing.  Sites not included in the white list that link to your SAS Server will receive a 403 forbidden error.  
+# For security reasons, websites that directly link to your SAS installation via URLs, such as reports, Single Sign-on Servers, and corporate sites, need to be explicitly included in the white list. Host names that are part of the SAS Deployment Wizard configuration are automatically included in white list processing.  Sites not included in the white list that link to your SAS Server will receive a 403 forbidden error.
 
 You may use wildcards in your comma-separated list of allowed sites. To block selected sites from the wild card, select advanced and add the sites to the blocked sites blacklist. If you need to add exceptions, use this panel.
 #sas.web.csrf.referers.knownhosts=<text value>
@@ -331,7 +331,7 @@ You may use wildcards in your comma-separated list of allowed sites. To block se
  hyperagntc.agent.setup.agentPort=2144
 
 # SAS Environment Manager Enablement Kit Database Credentials
-# 
+#
 #evmkitevp.db.userid=<user name value>
  evmkitevp.db.userid=sasevdb
 #evmkitevp.db.passwd=<password value>

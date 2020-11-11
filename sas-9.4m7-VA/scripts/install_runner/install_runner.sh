@@ -26,32 +26,36 @@ echo "LoadbalancerDNS: ${PUBLIC_DNS_NAME}" >/tmp/ansible_vars.yaml
 echo "AdminPassword: '{sas001}${sasPassword}'" >>/tmp/ansible_vars.yaml
 echo "ExternalPassword: '${azurePassword}'" >>/tmp/ansible_vars.yaml
 
-# in order to get around the azure ci testing, we need
-if [[ "$depot_uri" == "$DEPOT_DUMMY_FOR_QUICK_EXIT_VALUE" ]]; then
-	echo "No license given. Doing infrastructure only install. SAS will not be installed."
-	exit 0
-fi
-
 pushd ${INSTALL_DIR}/ansible
 
 export ANSIBLE_LOG_PATH=/tmp/step03_prereqs.log
 ansible-playbook -i ${INVENTORY_FILE} -vvv step03_prereqs.yaml
 
-export ANSIBLE_LOG_PATH=/tmp/step04_download_mirror_and_licenses.log
+export ANSIBLE_LOG_PATH=/tmp/step04_preinstall_sas.log
+ansible-playbook -i ${INVENTORY_FILE} -vvv step04_preinstall_sas.yaml
+
+# in order to get around the azure ci testing, we need
+if [[ "$depot_uri" == "$DEPOT_DUMMY_FOR_QUICK_EXIT_VALUE" ]]; then
+	popd
+	echo "No license given. Doing infrastructure only install. SAS will not be installed."
+	exit 0
+fi
+
+export ANSIBLE_LOG_PATH=/tmp/step05_download_mirror_and_licenses.log
 ansible-playbook -i ${INVENTORY_FILE} \
 	-e "DEPOT_DOWNLOAD_LOCATION=$depot_uri" \
-	-e "LICENCE_DOWNLOAD_LOCATION=$license_file_uri" \
+	-e "LICENSE_DOWNLOAD_LOCATION=$license_file_uri" \
 	-e "PLANFILE_DOWNLOAD_LOCATION=$planfile_uri" \
-	-vvv step04_download_mirror_and_licenses.yaml
+	-vvv step05_download_mirror_and_licenses.yaml
 
 # Get the path to the sid file in the depot
 SID_FILE=$(ls /sasshare/depot/sid_files)
 echo "sid_file_name: $SID_FILE" >>/tmp/ansible_vars.yaml
 
-cp /sas/install/plan.xml /sasshare/plan.xml
-
-export ANSIBLE_LOG_PATH=/tmp/step05_preinstall_sas.log
-ansible-playbook -i ${INVENTORY_FILE} -vvv step05_preinstall_sas.yaml
+# If no plan file is found after downloading mirror, use the default plan file provided by the quickstart
+if [ ! -f "/sasshare/depot/plan.xml" ]; then
+	cp /sas/install/plan.xml /sasshare/depot/plan.xml
+fi
 
 mkdir /sasshare/responsefiles
 mkdir /sasshare/scripts
@@ -63,7 +67,7 @@ ansible-playbook -i ${INVENTORY_FILE} -vvv step06_update_responsefiles.yaml
 
 cp /tmp/responsefiles/* /sasshare/responsefiles
 
-export ANSIBLE_LOG_PATH=/tmp/step07_install_sas.log
+#export ANSIBLE_LOG_PATH=/tmp/step07_install_sas.log
 ansible-playbook -i ${INVENTORY_FILE} -vvv step07_install_sas.yaml
 
 # Stop the midtier SAS servers
