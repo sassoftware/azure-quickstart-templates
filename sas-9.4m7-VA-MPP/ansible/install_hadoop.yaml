@@ -63,6 +63,21 @@
 #        backup: yes
 #      with_items: "{{ groups['va_controllers'] }},{{ groups['va_workers'] }}"
 
+- name: Download Hadoop on nameNode and dataNodes
+  hosts: [va_controllers,va_workers]
+  become_user: sasinst
+  become: yes
+  vars:
+    HADOOP_VERSION: 3.1.4
+    HADOOP_HOME: "$HOME/hadoop"
+  tasks:
+  - name: Make hadoop home dirctory
+    become: yes
+    file:
+      path: "{{ HADOOP_HOME }}"
+      state: directory
+      mode: '0755'
+
   - name: Downloading Hadoop from Apache
     become: yes
     unarchive:
