@@ -110,7 +110,7 @@
       insertafter: "# export JAVA_HOME="
       block: |
         export JAVA_HOME=/usr/lib64/jvm/jre-1.8.0-openjdk
-        
+
   - name: Edit core-site.xml configuration
     blockinfile:
       path: "{{ HADOOP_HOME }}/etc/hadoop/core-site.xml"
@@ -120,7 +120,7 @@
           <name>fs.default.name</name>
           <value>hdfs://{{ inventory_hostname }}:9000</value>
         </property>
-        
+
   - name: Edit hdfs-site.xml configuration
     blockinfile:
       path: "{{ HADOOP_HOME }}/etc/hadoop/hdfs-site.xml"
@@ -138,7 +138,7 @@
           <name>dfs.replication</name>
           <value>2</value>
         </property>
-      
+
   - name: Edit mapred-site.xml configuration
     blockinfile:
       path: "{{ HADOOP_HOME }}/etc/hadoop/mapred-site.xml"
@@ -172,7 +172,7 @@
           <name>mapreduce.reduce.memory.mb</name>
           <value>256</value>
         </property>
-      
+
   - name: Edit yarn-site.xml configuration
     blockinfile:
       path: "{{ HADOOP_HOME }}/etc/hadoop/yarn-site.xml"
@@ -205,10 +205,10 @@
         <property>
           <name>yarn.nodemanager.vmem-check-enabled</name>
           <value>false</value>
-        </property>          
+        </property>
         # The last property disables virtual-memory checking which can prevent containers from being allocated properly with openjdk if enabled.
-        # Note: Memory allocation can be tricky on low RAM nodes because default values are not suitable for nodes with less than 8GB of RAM. 
-        #       We have manually set memory allocation for MapReduce jobs, and provide a sample configuration for 4GB RAM nodes.            
+        # Note: Memory allocation can be tricky on low RAM nodes because default values are not suitable for nodes with less than 8GB of RAM.
+        #       We have manually set memory allocation for MapReduce jobs, and provide a sample configuration for 4GB RAM nodes.
 
   - name: Make sure localhost is not in the workers file
     lineinfile:
@@ -220,7 +220,7 @@
     become: yes
     lineinfile:
       path: "{{ HADOOP_HOME }}/etc/hadoop/workers"
-      line: "{{ hostvars[item]['ansible_hostname']}}"
+      line: "{{ hostvars[item]['inventory_hostname']}}"
       state: present
       backup: yes
     with_items: "{{ groups['va_workers'] }}"
@@ -243,9 +243,9 @@
   tasks:
   - name: Format hdfs on namenode
     become: yes
-    shell: |-    
+    shell: |-
       {{ HADOOP_HOME }}/bin/hdfs namenode -format
-      
+
   - name: Start dfs
     become: yes
     shell: |-
