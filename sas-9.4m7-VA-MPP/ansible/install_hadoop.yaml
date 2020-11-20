@@ -235,7 +235,7 @@
     become: yes
     lineinfile:
       path: "{{ HADOOP_HOME }}/etc/hadoop/workers"
-      line: "{{ hostvars[item]['ansible_hostname']}}"
+      line: "{{ hostvars[item]['inventory_hostname']}}"
       state: present
       backup: yes
     with_items: "{{ groups['va_workers'] }}"
