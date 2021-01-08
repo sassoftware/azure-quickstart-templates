@@ -79,8 +79,8 @@ By default, Quickstart deployments enable Transport Layer Security (TLS) to help
 
 Deploying this Quickstart for a new virtual private cloud (VPC) with default parameters in a symmetric multiprocessing (SMP) environment builds the following SAS 9.4 environment in Microsoft Azure, shown in Figure 1.  In SMP environments, the CASInstanceCount parameter is set to one, indicating that only one CAS controller is configured.
 
-![Network Diagram](Azure_9_vavs_quickstart.svg)
-Figure 2: Quickstart architecture for SAS 9.4 VA/VS on Azure in an SMP Environment
+![Network Diagram](Azure_9_vavs_quickstart_smp.svg)
+Figure 1: Quickstart architecture for SAS 9.4 VA/VS on Azure in an SMP Environment
 
 <a name="Prerequisites"></a>
 ## Prerequisites
