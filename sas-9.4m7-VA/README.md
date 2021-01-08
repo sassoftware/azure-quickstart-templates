@@ -1,6 +1,6 @@
 # SAS 9.4 Visual Analytics/Visual Statistics Quickstart Template for Azure 
 
-**Note:** The SAS 9.4 Visual Analytics/Visual Statistics Quickstart Template for Azure is an example architecture only, and is not intended for production use. Specifically, the quickstart provides an example of how SAS 9.4 VA/VS workloads running in a massively parallel processing (MPP) environment with SAS LASR Analytic Server can be run on Azure.  When running in an MPP environment, the SAS 9.4 VA/VS Quickstart Template for Azure deploys Apache Hadoop.  As stated in our [SAS 9.4 Support for Hadoop policy](https://support.sas.com/en/documentation/third-party-software-reference/9-4/support-for-hadoop.html), SAS does not provide support for the installation or administration of Apache Hadoop.  For support with these issues, please refer to the Apache Hadoop open source community.  The intent of the SAS 9.4 VA/VS Quickstart Template for Azure is to provide customers an opportunity to test deployments on the cloud before committing to a lift and shift from their current on-premise deployments.
+**Note:** The SAS 9.4 Visual Analytics/Visual Statistics Quickstart Template for Azure is an example architecture only, and is not intended for production use. 
 
 
 ## Contents
@@ -79,10 +79,8 @@ By default, Quickstart deployments enable Transport Layer Security (TLS) to help
 
 Deploying this Quickstart for a new virtual private cloud (VPC) with default parameters in a symmetric multiprocessing (SMP) environment builds the following SAS 9.4 environment in Microsoft Azure, shown in Figure 1.  In SMP environments, the CASInstanceCount parameter is set to one, indicating that only one CAS controller is configured.
 
-Deploying this Quickstart for a new virtual private cloud (VPC) with default parameters in a massively parallel processing (MPP) environment builds the following SAS 9.4 environment in the Microsoft Azure cloud, shown in Figure 2.   In MMP environments, the CASInstanceCount parameter is set to one, indicating that only one CAS controller is configured.
-
 ![Network Diagram](Azure_9_vavs_quickstart.svg)
-Figure 2: Quickstart architecture for SAS 9.4 VA/VS on Azure in an MPP Environment
+Figure 2: Quickstart architecture for SAS 9.4 VA/VS on Azure in an SMP Environment
 
 <a name="Prerequisites"></a>
 ## Prerequisites
