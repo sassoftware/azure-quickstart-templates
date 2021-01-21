@@ -41,9 +41,11 @@ For assistance with SAS software, contact  [SAS Technical Support](https://suppo
 You are responsible for the cost of the Azure services used while running this Quickstart deployment. There is no additional cost for using the Quickstart.
 You will need a SAS license to launch this Quickstart. Your SAS account team and the SAS Enterprise Excellence Center can advise on the appropriate software licensing and sizing to meet your workload and performance needs.
 The SAS 9.4 VA/VS Quickstart Template for Azure creates three instances, including: 
-* 1 compute server virtual machine (VM), the SAS VA/VS server
-* 1 middle tier VM, the SAS 9.4M7 Mid-Tier server
-* 1 metadata server VM, the SAS 9.4M7 Metadata clustered server
+* 1 jump virtual machine (VM)
+* 1 SAS 9.4M7 VA controller/compute server VM
+* 2 SAS 9.4M7 VA worker VMs
+* 1 SAS 9.4M7 Mid-Tier server
+* 1 SAS 9.4M7 Metadata clustered server
 
 <a name="compute"></a>
 #### SAS 9.4 VA/VS server
@@ -77,7 +79,7 @@ For details, see [SAS 9.4 Intelligence Platform: Installation and Configuration 
 
 By default, Quickstart deployments enable Transport Layer Security (TLS) to help ensure that communication between external clients (on the internet) and the load balancer is secure. Likewise, TLS is enabled between the load balancer and the private subnet that contains the SAS 9.4 components. 
 
-Deploying this Quickstart for a new virtual private cloud (VPC) with default parameters in a symmetric multiprocessing (SMP) environment builds the following SAS 9.4 environment in Microsoft Azure, shown in Figure 1.  In SMP environments, the CASInstanceCount parameter is set to one, indicating that only one CAS controller is configured.
+Deploying this Quickstart for a new virtual private cloud (VPC) with default parameters in a symmetric multiprocessing (SMP) environment builds the following SAS 9.4 environment in Microsoft Azure, shown in Figure 1.  
 
 ![Network Diagram](Azure_9_vavs_quickstart_smp.svg)
 Figure 1: Quickstart architecture for SAS 9.4 VA/VS on Azure in an SMP Environment
@@ -86,7 +88,7 @@ Figure 1: Quickstart architecture for SAS 9.4 VA/VS on Azure in an SMP Environme
 ## Prerequisites
 
 Before deploying SAS 9.4 VA/VS Quickstart Template for Azure, you must have the following:
-* A Microsoft Azure account with Contributor and Admin Roles if you do not already have one. Request an Azure account at ["CIS Cloud Services"](http://sww.sas.com/sites/it/cloud-services/).
+* A Microsoft Azure account with Contributor and Admin Roles
         
 * A SAS 9.4M7 VA/VS software order that contains the following supported Quickstart products: 
 
@@ -176,7 +178,7 @@ Deployments typically take 2-3 hours to complete.
 <a name="logsandservices"></a>
 ### Check Logs and Services Status
 
-Check the logs and services status by accessing the various VM instances from the jumpvm, as follows: (content under development: What are the correct steps for  checking logs and services status post deployment? Leaving these instructions for now. PD)
+Check the logs and services status by accessing the various VM instances from the jumpvm, as follows: 
 
 1. Obtain the Public IP Address of the jumpvm from the jumpvm’s details: 
 
@@ -187,7 +189,7 @@ Check the logs and services status by accessing the various VM instances from th
 2. Using the Public IP address, ssh to the jumpvm: 
 
     ```
-   ssh -I <public key pem file> AzureUser@<jumpvm public IP address>
+   ssh -i <public key pem file> AzureUser@<jumpvm public IP address>
    ```
    
    The jumpvm provides SSH access to the other VMs in the deployment: 
@@ -207,7 +209,7 @@ Check the logs and services status by accessing the various VM instances from th
    ```
    ssh sasinst@midtier-0 
    ```
-   The password for all accounts is set to the default: *Go4thsas*
+   The password for all accounts is the password that you specified for the SAS Administration password value [here](#azureportal).
    
    SAS is installed in the /sas folder on all VMs. 
 
