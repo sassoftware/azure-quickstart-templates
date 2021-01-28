@@ -129,7 +129,7 @@ For more information about this command, see ["az storage blob upload-batch"](ht
 |--------------|-----------|
 |Subscription|Specifies what subscription to use for the deployment.|
 |Resource group|Specifies what resource group to use. Choose an existing group or click *Create new* and provide a name for the new group.|
-|Region|Defines the Azure region in which the deployment should run. The available Azure regions are listed in the [Azure Services that support Availability Zones page](https://docs.microsoft.com/en-us/azure/availability-zones/az-region).
+|Region|Defines the Azure region in which the deployment should run. The available Azure regions are listed at [Azure Services that support Availability Zones](https://docs.microsoft.com/en-us/azure/availability-zones/az-region).
 |Location|Defines the location in Microsoft Azure where these resources should be created. This is derived from the Resource group.|
 |SAS Depot Location|Specifies the URI of the Azure Blob Store where the software depot was uploaded.|
 |Use a New or Existing Virtual Network?|Specifies whether to use a new or existing network.|
