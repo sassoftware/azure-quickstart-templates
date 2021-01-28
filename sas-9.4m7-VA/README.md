@@ -129,7 +129,7 @@ For more information about this command, see ["az storage blob upload-batch"](ht
 |--------------|-----------|
 |Subscription|Specifies what subscription to use for the deployment.|
 |Resource group|Specifies what resource group to use. Choose an existing group or click *Create new* and provide a name for the new group.|
-|Region|Defines the Azure region in which the deployment should run.
+|Region|Defines the Azure region in which the deployment should run. The available Azure regions are listed in the [Azure Services that support Availability Zones page](https://docs.microsoft.com/en-us/azure/availability-zones/az-region).
 |Location|Defines the location in Microsoft Azure where these resources should be created. This is derived from the Resource group.|
 |SAS Depot Location|Specifies the URI of the Azure Blob Store where the software depot was uploaded.|
 |Use a New or Existing Virtual Network?|Specifies whether to use a new or existing network.|
@@ -154,11 +154,6 @@ For more information about this command, see ["az storage blob upload-batch"](ht
 3. Click *Next: Review and Create*. 
 4. If the validation is successful,  click *Create*. When the *Deployment is in progress* window appears, the deployment will begin.
 Deployments typically take 2-3 hours to complete. 
-
-<a name="mercuryadmintools"></a>
-### Deploy Using the Mercury Admin Tools
-
-(content under development:  Do we still need this?  PD)
 
 <a name="PostDeployment"></a>
 ## Post Deployment Steps
