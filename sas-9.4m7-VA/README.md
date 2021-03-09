@@ -23,6 +23,7 @@
 1. [Troubleshooting](#Troubleshooting)
 1. [Appendix A:](#AppendixA)
 
+**Note:**  This Quickstart is supported only in regions that support Availability Zones. For more information, see [Azure Services that support Availability Zones](https://docs.microsoft.com/en-us/azure/availability-zones/az-region).
 
 <a name="Overview"></a>
 ## Overview
