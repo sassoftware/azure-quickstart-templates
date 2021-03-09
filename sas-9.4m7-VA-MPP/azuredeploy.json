@@ -69,15 +69,8 @@
         "Standard_D2s_v3",
         "Standard_D8s_v3",
         "Standard_D16s_v3",
-        "Standard_D32s_v3"
-      ]
-    },
-    "Metadata VM Count": {
-      "defaultValue": 1,
-      "type": "Int",
-      "allowedValues": [
-        1,
-        3
+        "Standard_D32s_v3",
+	"Standard_E32ds_v4"
       ]
     },
     "Metadata VM Size": {
@@ -88,7 +81,8 @@
         "Standard_D2s_v3",
         "Standard_D8s_v3",
         "Standard_D16s_v3",
-        "Standard_D32s_v3"
+        "Standard_D32s_v3",
+	"Standard_E32ds_v4"
       ]
     },
     "Visual Analytics Worker Count": {
@@ -110,7 +104,8 @@
         "Standard_D2s_v3",
         "Standard_D8s_v3",
         "Standard_D16s_v3",
-        "Standard_D32s_v3"
+        "Standard_D32s_v3",
+	"Standard_E32ds_v4"
       ]
     },
     "Visual Analytics Worker Size": {
@@ -121,7 +116,8 @@
         "Standard_D2s_v3",
         "Standard_D8s_v3",
         "Standard_D16s_v3",
-        "Standard_D32s_v3"
+        "Standard_D32s_v3",
+	"Standard_E32ds_v4"
       ]
     },
     "Proximity PlacementGroup Name": {
@@ -174,7 +170,8 @@
         "Standard_D2s_v3": 2,
         "Standard_D8s_v3": 2,
         "Standard_D16s_v3": 4,
-        "Standard_D32s_v3": 8
+        "Standard_D32s_v3": 8,
+	"Standard_E32ds_v4": 8
     },
     "ostag":"[if(equals(parameters('Operating System Image'),'Red Hat Enterprise Linux 7 (latest, LVM)'),'RH7x','SL12')]",
     "osProfile": {
@@ -212,7 +209,7 @@
     "artifactsLocation": "[parameters('_artifactsLocation')]",
     "sasToken": "[parameters('_artifactsLocationSasToken')]",
     "metadataSize": "[parameters('Metadata VM Size')]",
-    "metadataCount": "[parameters('Metadata VM Count')]",
+    "metadataCount": 1,
     "sshKey": "[parameters('ssh Key for VM Access')]",
     "vaControllerSize": "[parameters('Visual Analytics Controller Size')]",
     "vaWorkerSize": "[parameters('Visual Analytics Worker Size')]",
