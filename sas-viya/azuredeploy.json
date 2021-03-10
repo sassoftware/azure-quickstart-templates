@@ -170,6 +170,19 @@
             }
           },
           {
+            "name": "Port_8777",
+            "properties": {
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8777",
+              "sourceAddressPrefix": "[parameters('WebIngressLocation')]",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1011,
+              "direction": "Inbound"
+            }
+          },
+          {
             "name": "allow-backend-health",
             "properties": {
               "protocol": "TCP",
@@ -331,6 +344,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/publicIPAddresses', 'PrimaryViyaLoadbalancer_PublicIP')]",
         "[resourceId('Microsoft.Network/networkInterfaces', 'Services_NetworkInterface')]",
+        "[resourceId('Microsoft.Network/networkInterfaces', 'CASController_NetworkInterface')]",
         "[resourceId('Microsoft.Compute/virtualMachines', 'services')]",
         "[resourceId('Microsoft.Resources/deployments', 'CreateNetwork')]"
       ],
@@ -403,6 +417,16 @@
               "backendAddresses": [
                 {
                   "IpAddress": "[reference(resourceId('Microsoft.Network/networkInterfaces', 'Services_NetworkInterface')).ipConfigurations[0].properties.privateIPAddress]"
+                }
+              ]
+            }
+          },
+          {
+            "name": "cas_BackendPool",
+            "properties": {
+              "backendAddresses": [
+                {
+                  "IpAddress": "[reference(resourceId('Microsoft.Network/networkInterfaces', 'CASController_NetworkInterface')).ipConfigurations[0].properties.privateIPAddress]"
                 }
               ]
             }

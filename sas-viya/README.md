@@ -77,6 +77,22 @@ For assistance with SAS software, contact  [SAS Technical Support](https://suppo
     - [Updating the Operating System](#updating-the-operating-system)
   - [Appendix D: Telemetry](#appendix-d-telemetry)
     - [Notification for Resource Manager Template Deployments](#notification-for-resource-manager-template-deployments)
+  - [Appendix E: Enabling REST Access](#appendix-e-enabling-rest-access)
+    - [Prerequisites](#setup-1)
+    - [Modify the Windows Host File](#setup-2)
+    - [Import the Application Gateway Certificate into the Windows Certificate Store](#setup-3)
+    - [Create Certificates for the CAS Listener and HTTP Settings](#setup-4)
+    - [Install the CAS Controller Certificates to the Windows Certificate Store](#setup-5)
+    - [Create and Configure a New Listener](#setup-6)
+    - [Create a New HTTP Setting](#setup-7)
+    - [Create a New Routing Rule](#setup-8)
+    - [Testing](#testing) 
+      - [Obtain the CONSUL Token](#testing-1)
+      - [Register a SAS Viya Client ID and Secret](#testing-2)
+      - [Use the Client ID to Get an Access Token](#testing-3)
+      - [Create a CAS session](#testing-4)
+      - [Submit a Dataset to the CAS controller](#testing-5)
+      - [Verify the Results](#testing-6)
 
 <a name="Summary"></a>
 ## Solution Summary
@@ -626,3 +642,285 @@ During installation, yum updates servers but will not automatically apply patche
 <a name="msnotification"></a>
 ### Notification for Resource Manager Template Deployments
 When you deploy this template, Microsoft is able to identify the installation of SAS software with the Azure resources that are deployed. Microsoft is able to correlate the Azure resources that are used to support the software. Microsoft collects this information to provide the best experiences with their products and to operate their business. The data is collected and governed by Microsoft's privacy policies, which can be found at [Microsoft Trust Center](https://www.microsoft.com/trustcenter).
+
+<a name="appendix-e-enabling-rest-access"></a>
+## Appendix E: Enabling REST Access
+This section describes the steps for configuring a Quickstart deployment to allow data to be loaded into the CAS controller from an on-premises SAS 9.4 client using HTTP REST calls.
+
+To support this configuration, a security rule has already been added to the PrimaryViyaLoadbalancer that allows incoming traffic on port 8777, and a backend pool has been created to accept the incoming traffic.
+
+In the following steps, a new listener, HTTP setting, and routing rule are created to connect incoming traffic with the backend pool. In addition, the necessary TLS certificates are created and put in place.
+
+#### <a name="setup-1"></a>Prerequisites
+Using the Azure Portal, obtain the following values for your deployment:
+* public IP address and URL of the deployment (PrimaryViyaLoadbalancer_PublicIP)
+* public IP address of Ansible controller
+
+Make note of them for later use.
+
+You will also need the path and filename of the private SSH key that corresponds to the public key used for the deployment. 
+
+#### <a name="setup-2"></a>Modify the Windows Host File
+Using the value of your PrimaryViyaLoadbalancer_PublicIP (obtained in previous step), add an entry like the following to `C:\Windows\System32\drivers\etc\hosts`:
+```
+<load-balancer-public-ip> controller.viya.sas
+```
+
+#### <a name="setup-3">Import the Application Gateway Certificate into the Windows Certificate Store
+1. Obtain the value of the appGateWayFrontendCertificate by invoking the following commands with the Azure CLI:
+```
+az login
+az network application-gateway ssl-cert show --gateway-name PrimaryViyaLoadbalancer --resource-group <your-resource-group> --subscription <your-subscription> --name appGatewayFrontendCertificate
+```
+    **Note:**  Supply your resource group and subscription name.
+
+2. Copy the `publicCertData` string from the output of the above command. Create a new CRT file (named appGateway.crt, for example) that contains the copied string pasted between these two lines:
+
+```
+-----BEGIN CERTIFICATE-----
+-----END CERTIFICATE-----
+```
+
+3. Follow these [instructions](https://go.documentation.sas.com/?cdcId=calcdc&cdcVersion=3.5&docsetId=calencryptmotion&docsetTarget=n1xdqv1sezyrahn17erzcunxwix9.htm&locale=en#p09ebu28fz7zpjn17r6jf6iwpyyw) to import the certificate file using the Microsoft Management Console (MMC). 
+
+4. Access the public URL for your deployment in a browser. You should be able to connect securely without warnings. The supported browsers are Chrome and Edge. For some reason, Firefox doesn’t allow a secure connection.
+
+#### <a name="setup-4"></a>Create Certificates for the CAS Listener and HTTP Settings
+1. Connect to the Ansible controller using the public IP address and SSH private key file that you obtained in the first step:
+```
+ssh -i <full-path-to-private-key> vmuser@<ansible-controller-public-ip>
+```
+
+2. Connect to the CAS controller (with SFTP) and transfer two files back to the Ansible controller:
+```
+sftp controller
+mget /opt/sas/viya/config/etc/SASSecurityCertificateFramework/tls/certs/cas/shared/default/sas_encrypted.crt
+mget /opt/sas/viya/config/etc/SASSecurityCertificateFramework/private/cas/shared/default/sas_encrypted.key
+exit
+```
+
+3. Obtain the encryption passphrase. Connect to the CAS controller (with SSH), and obtain the content of the key file:
+```
+ssh controller
+sudo cat /opt/sas/viya/config/etc/SASSecurityCertificateFramework/private/cas/shared/default/encryption.key
+aed84b63ab224816b3a77e8a088190f8
+exit
+```
+
+**Note:**  The passphrase (aed84b63ab224816b3a77e8a088190f8) shown in the output above is to demonstrate the format only.  Please substitute with your passphrase in the next step.
+
+4. From the Ansible controller, use OPENSSL to create the PFX file. When prompted for passphrase, use the captured passphrase from the previous step. When prompted for Export password, provide one of your choice.
+```
+openssl pkcs12 -export -out controller.pfx -inkey sas_encrypted.key -in sas_encrypted.crt
+provide pass phrase <passphrase>
+provide Export password <your-password>
+```
+**Note:** Make note of the Export password that you provided as you will need it in the next step.
+
+5. Use OPENSSL to create the CER file. For Import password, provide the one you chose in the previous step. 
+```
+openssl pkcs12 -in controller.pfx -out certificate.cer -nodes
+provide Import password <your-password>
+```
+
+6. Transfer both files back to your Windows host. From a Windows CMD prompt:
+```
+sftp -i <full-path-to-private-key> vmuser@<ansible-controller-public-ip>
+mget *.cer
+mget *.pfx
+```
+
+**Note:**  Please note the location of the transferred files, as we will need them when configuring the listener and HTTP settings.
+
+#### <a name="setup-5">Install the CAS Controller Certificates to the Windows Certificate Store
+1. From the Ansible controller, connect to the CAS controller and view the contents of the vault-services-ca.crt file. 
+```
+ssh controller
+cat /opt/sas/viya/config/etc/SASSecurityCertificateFramework/cacerts/vault-services-ca.crt
+```
+2. This file contains the Viya root certificate and the intermediate Certificate Authority (CA) certificate. Copy each certificate from the vault-services-ca.crt file into a separate file and import them one-at-a-time into the Window’s certificate store using these [instructions](https://go.documentation.sas.com/?cdcId=calcdc&cdcVersion=3.5&docsetId=calencryptmotion&docsetTarget=n1xdqv1sezyrahn17erzcunxwix9.htm&locale=en#p09ebu28fz7zpjn17r6jf6iwpyyw).
+
+#### <a name="setup-6">Create and Configure a New Listener
+1. In the Azure portal, locate your deployment, and select the PrimaryViyaLoadbalancer. 
+2. In panel on the left, choose 'Settings->Listeners'.
+3. Choose '+ Add Listener', and then select/enter these values:
+   * Listener name: provide a meaningful name (i.e. cas_Listener)
+   * Frontend IP: Public
+   * Port: 8777
+   * Protocol: HTTPS
+   * Choose a certificate: Create new
+   * PFX certificate file: browse to PFX file created in previous step (controller.pfx)
+   * Cert name: provide a meaningful name.
+   * Password: provide the Import password you chose in a previous step
+
+#### <a name="setup-7">Create a New HTTP Setting
+1. In the PrimaryViyaLoadBalancer, choose 'Settings->HTTP Settings' from the left panel.
+2. Choose '+ Add' to add new HTTP settings, and then select/enter these values:
+   * HTTP settings name: provide a meaningful name (i.e. cas_HTTPSettings)
+   * Backend protocol: HTTPS
+   * Backend port: 8777
+   * Choose a certificate: 'Create new'
+   * CER certificate: browse to the CER created in previous step (certificate.cer)
+   * Cert name: provide a meaningful name.
+   * Choose: 'Add certificate' 
+   * Override with new host name: Yes
+   * Select: 'Pick host name from backend target'
+
+#### <a name="setup-8">Create a New Routing Rule
+1. In PrimaryViyaLoadBalancer, choose 'Settings->Rules' from the left panel.
+2. Choose '+ Request routing rule', and then select/enter these values:
+   * Rule name: provide a meaningful name (i.e. cas_RoutingRule)
+   * On the Listener tab:
+     * Listener: Select the Listener you created previously
+   * On the 'Backend targets' tab:
+     * Backend target: cas_BackendPool
+     * HTTP Settings: Select the HTTP Setting you created previously
+
+### Testing
+#### <a name="testing-1">Obtain the Consul Token
+From the Ansible controller, connect to the CAS controller, display the contents of the file containing the token value:
+
+```
+ssh controller
+sudo cat /opt/sas/viya/config/etc/SASSecurityCertificateFramework/tokens/consul/default/client.token
+2aa45c7a-70d0-4038-8497-fdc153dc0ada
+```
+
+**Note:**  The token value (2aa45c7a-70d0-4038-8497-fdc153dc0ada) shown in the output above is to demonstrate the format only.  Please substitute with your value in the next step.
+
+The next four steps are performed using your SAS 9.4 client on Windows.
+
+#### <a name="testing-2">Register a SAS Viya Client ID and Secret
+1. In the editor, enter the following SAS program to register your client with SAS Viya and obtain a CLIENT_ID and CLIENT_SECRET:
+
+```
+options ls=max nodate;
+ods _all_ close;
+
+* Specify the base URI;
+%let BASE_URI=<your-base-uri>;
+
+* Specify the consul token;
+%let CONSUL_TOKEN=<your-consul-token>;
+
+* Specify the new client ID and secret names;
+%let CLIENT_ID=<your-client-id>;
+%let CLIENT_SECRET=<your-client-secret>;
+
+* FILEREFs for the response and the response headers;
+filename resp temp;
+filename resp_hdr temp;
+
+* Get the access token to use to create the Client ID;
+proc http url="&BASE_URI/SASLogon/oauth/clients/consul?callback=false%nrstr(&serviceId)=&CLIENT_ID"
+method='post' out=resp headerout=resp_hdr headerout_overwrite verbose;
+debug level=3;
+headers 'X-Consul-Token'="&CONSUL_TOKEN";
+run;quit;
+
+*;
+* Get the access token from the JSON data and store it in the ACCESS_TOKEN macro variable.;
+*;
+libname tokens json fileref=resp;
+proc sql noprint;
+select access_token into:ACCESS_TOKEN from tokens.root;
+quit;
+```
+
+2. Substitute your values for the BASE_URI (public URL for your deployment) and CONSUL_TOKEN (obtained in the previous step).
+3. Create and substitute values for the CLIENT_ID (for example 'MyClient') and CLIENT_SECRET (for example 'MySecret').
+4. Submit the program.
+
+#### <a name="testing-3">Use the Client ID to Get an Access Token
+1. Enter the following SAS program to request an access token, which will be used to access SAS Viya services:
+
+```
+options ls=max nodate;
+ods _all_ close;
+
+* Specify the base URI;
+%let BASE_URI=<your-base-uri>;
+
+* Specify the username and password;
+%let USERNAME=sasadmin;
+%let PASSWORD=<your-admin-password>;
+
+%let CLIENT_ID=<your-client-id>;
+%let CLIENT_SECRET=<your-client-secret>;
+
+* FILEREFs for the response and the response headers;
+filename resp temp;
+filename resp_hdr temp;
+
+* Get access and refresh tokens in JSON format;
+proc http url="&BASE_URI/SASLogon/oauth/token" method='post'
+in="grant_type=password%nrstr(&username=)&USERNAME%nrstr(&password=)&PASSWORD"
+username="&CLIENT_ID" password="&CLIENT_SECRET" out=resp auth_basic verbose;
+debug level=3;
+run;quit;
+*;
+* Get the access token from the JSON data and
+* store it in the ACCESS_TOKEN macro variable.
+*;
+libname tokens json "%sysfunc(pathname(resp))";
+proc sql noprint;
+select access_token into:ACCESS_TOKEN from tokens.root; quit;
+
+%put This is the current value of the ACCESS_TOKEN: &ACCESS_TOKEN;
+```
+
+2. Substitute the values for BASE_URI, CLIENT_ID and CLIENT_SECRET that you used in the previous step.
+3. Substitute the value of PASSWORD with the admin password specified in the deployment.
+4. Submit the program.
+
+#### <a name="testing-4">Create a CAS Session
+Enter and submit the following SAS program to create a CAS session and obtain a session ID: 
+
+```
+%let location=C:\temp;
+filename respa "&location\get_ref_a.json";
+filename resphdra "&location\get_ref_a.txt";
+%let CAS_URI=https://controller.viya.sas:8777/cas/sessions;
+
+proc http url="&CAS_URI"
+		method='post' 
+	out=respa headerout=resphdra headerout_overwrite verbose;
+	debug level=3;
+	headers 'Authorization'="Bearer &ACCESS_TOKEN";
+run;quit;
+
+libname sessions json "%sysfunc(pathname(respa))";
+proc sql noprint;
+select session into:SESSION_ID from sessions.root; quit;
+
+%put This is the current value of the CAS SESSION_ID: &SESSION_ID;
+```
+
+**Note:**  No modifications are needed, as the code resolves the deployment IP address using the host file entry we added earlier.
+
+#### <a name="testing-5">Submit a Dataset to the CAS controller
+1. Enter the following SAS program to submit a dataset to the CAS controller using REST: 
+
+```
+filename respc "&location\get_ref_c.json";
+filename resphdrc "&location\get_ref_c.txt";
+%let CAS_URI=https://controller.viya.sas:8777/cas/sessions/&SESSION_ID/actions/upload;
+
+filename in <full-path-to-dataset>;
+proc http url="&CAS_URI"
+	method='put' 
+	in=in
+	ct='binary/octet-stream' out=respc headerout=resphdrc verbose;
+	debug level=3;
+	headers "Authorization"="Bearer &ACCESS_TOKEN" "JSON-Parameters"='{ "casout": { "caslib": "public", "name":"<new-dataset-name>","promote":"true" },"importOptions": {"fileType":"basesas"} }';
+run;quit;
+```
+
+2. Place a dataset to submit in a local directory and note the full path (for example, C:\temp\class.sas7bdat).
+3. Substitute the full path to the dataset for the value of <full-path-to-dataset>
+4. Within the headers parameter following the ‘name:’ JSON parameter, substitute the desired name for the submitted dataset for the value of <new-dataset-name>.
+5. Submit the program. 
+
+#### <a name="testing-6">Verify the Results
+
+Use the SAS Viya interface to verify that the data is available.
