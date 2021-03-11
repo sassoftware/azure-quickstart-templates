@@ -23,8 +23,6 @@
 1. [Troubleshooting](#Troubleshooting)
 1. [Appendix A:](#AppendixA)
 
-**Note:**  This Quickstart is supported only in regions that support Availability Zones. For more information, see [Azure Services that support Availability Zones](https://docs.microsoft.com/en-us/azure/availability-zones/az-region).
-
 <a name="Overview"></a>
 ## Overview
 This README for SAS 9.4 Visual Analytics (VA)/ Visual Statistics (VS) Quickstart Template for Azure is used to deploy the following SAS Viya products in the Azure cloud:
@@ -104,6 +102,8 @@ Before deploying SAS 9.4 VA/VS Quickstart Template for Azure, you must have the 
 *  Verification that your required SAS 9.4M7 file upload sizes do not exceed the limits of the Application Gateway. For details about limits, see 
 ["Application Gateway limits."](https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits?toc=%2fazure%2fapplication-gateway%2ftoc.json#application-gateway-limits)
 * A resource group that does not already contain a Quickstart deployment. For more information, see ["Resource groups"](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview#resource-groups).
+
+*  Use of a region that supports Availability Zones. For more information, see [Azure Services that support Availability Zones](https://docs.microsoft.com/en-us/azure/availability-zones/az-region).
 
 * The software depot must be uploaded to Azure Blob Storage as follows:
 1. Navigate to the directory where the software depot was downloaded.  
