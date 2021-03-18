@@ -902,7 +902,7 @@ filename resphdra "&location\get_ref_a.txt";
 %let CAS_URI=https://controller.viya.sas:8777/cas/sessions;
 
 proc http url="&CAS_URI"
-                method='post' 
+        method='post' 
         out=respa headerout=resphdra headerout_overwrite verbose;
         debug level=3;
         headers 'Authorization'="Bearer &ACCESS_TOKEN";
