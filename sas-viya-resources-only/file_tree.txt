@@ -1,0 +1,10 @@
+/nestedtemplates/createNetworkSubtemplate.json|644
+/nestedtemplates/run_ansible_script.json|644
+/scripts/make_file_tree_file.sh|700
+/scripts/nonansiblecontroller_prereqs.sh|700
+/scripts/ansiblecontroller_prereqs.sh|755
+/scripts/ansiblecontroller_startup.sh|700
+/azuredeploy.json|644
+/README.md|644
+/azuredeploy.parameters.json|644
+/metadata.json|644
