@@ -88,6 +88,15 @@ Each possible value for this parameter represents a predetermined group of sizin
 ## Template Parameters
 Prior to launching the Quickstart, the template provides the opportunity to supply deployment parameters. Those with default values are optional, and those without defaults are required. The following parameters are supported:
 
+* **resourceProfile**
+  * Description: Used to specify a set of resource sizing and configuration values.
+  * Allowed values: *basic*, *memOptimized1*, *memOptimized2*, *storageOptimized*
+  * Default: basic
+* **CAS Node Count**
+  * Description: The number of CAS nodes in the deployment. If this is set to 1, an SMP environment is built with one CAS controller. If this is set to a value of 2 or more, an MPP environment is built (n workers + 1 controller).
+  * Type: int
+  * Default: 1
+  * Allowed values: 1-10
 * **SSHPublicKey**
   * Description: The public SSH key that will be used to log into the VMs.
   * Type: string
@@ -100,11 +109,6 @@ Prior to launching the Quickstart, the template provides the opportunity to supp
   * Description: Allow inbound SSH traffic to the Ansible Controller from this CIDR block (IP address range). Must be a valid IP CIDR range of the form x.x.x.x/x.
   * Type: string
   * Default: *none*
-* **CAS Node Count**
-  * Description: The number of CAS nodes in the deployment. If this is set to 1, an SMP environment is built with one CAS controller. If this is set to a value of 2 or more, an MPP environment is built (n workers + 1 controller).
-  * Type: int
-  * Default: 1
-  * Allowed values: 1-10
 * **_artifactsLocationSasToken**
   * Description: For a standard deployment, leave empty. If you are running from a blob template, then provide the Shared Access Signature token (starting with a ?) that grants authorization to the private template.
   * Type: securestring 
@@ -113,11 +117,6 @@ Prior to launching the Quickstart, the template provides the opportunity to supp
   * Description: For a standard deployment, keep the default. The HTTPS URL to the base of the deployment files in Microsoft Azure (if a SAS token is needed, do not include the token in the URL).
   * Type: string
   * Default: \<the project's URL in Azure\>
-* **resourceProfile**
-  * Description: Used to specify a set of resource sizing and configuration values.
-  * Allowed values: *basic*, *memOptimized1*, *memOptimized2*, *storageOptimized*
-  * Default: basic
-
 
 <a name="deployment-steps"></a>
 ## Deployment Steps

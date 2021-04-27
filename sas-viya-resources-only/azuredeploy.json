@@ -3,6 +3,28 @@
   "contentVersion": "0.1.0.0",
   "apiProfile": "",
   "parameters": {
+    "resourceProfile": {
+      "type": "string",
+      "defaultValue": "basic",
+      "allowedValues": [
+        "basic",
+        "memOptimized1",
+        "memOptimized2",
+        "storageOptimized"
+      ],
+      "metadata": {
+          "description": "Specify a set of resource sizing and configuration values."
+      }
+    },
+    "CAS Node Count": {
+      "type": "int",
+      "defaultValue": 1,
+      "minValue": 1,
+      "maxValue": 10,
+      "metadata": {
+        "description": "The number of CAS nodes in the deployment. If this is set to 1, an SMP environment is built with one CAS controller. If this is set to a value of 2 or more, an MPP environment is built (n workers + 1 controller). In the MPP environment case, you should shrink the size of the CAS controller as it will only be performing orchestration."
+      }
+    },
     "SSHPublicKey": {
       "type": "string",
       "metadata": {
@@ -22,15 +44,6 @@
         "description": "Allow inbound SSH traffic to the Ansible Controller from this CIDR block (IP address range). Must be a valid IP CIDR range of the form x.x.x.x/x."
       }
     },
-    "CAS Node Count": {
-      "type": "int",
-      "defaultValue": 1,
-      "minValue": 1,
-      "maxValue": 10,
-      "metadata": {
-        "description": "The number of CAS nodes in the deployment. If this is set to 1, an SMP environment is built with one CAS controller. If this is set to a value of 2 or more, an MPP environment is built (n workers + 1 controller). In the MPP environment case, you should shrink the size of the CAS controller as it will only be performing orchestration."
-      }
-    },
     "_artifactsLocationSasToken": {
       "type": "securestring",
       "defaultValue": "",
@@ -40,22 +53,9 @@
     },
     "_artifactsLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sas-viya-infrastructure-only/",
+      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sas-viya-resources-only/",
       "metadata": {
           "description": "For a standard deployment, keep the default. The https URL to the base of the deployment files in Microsoft Azure. If a SAS key is needed, please do not include the SAS key in the URL."
-      }
-    },
-    "resourceProfile": {
-      "type": "string",
-      "defaultValue": "basic",
-      "allowedValues": [
-        "basic",
-        "memOptimized1",
-        "memOptimized2",
-        "storageOptimized"
-      ],
-      "metadata": {
-          "description": "Specify a set of resource sizing and configuration values."
       }
     }
   },
