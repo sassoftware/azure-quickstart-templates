@@ -1,7 +1,7 @@
 # SAS Infrastructure-Only Quickstart Template for Azure
 
-[![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsas-viya%2Fazuredeploy.json)
-[![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsas-viya%2Fazuredeploy.json)
+[![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsassoftware%2Fazure-quickstart-templates%2Fdevelop-resources-only%2Fsas-viya-resources-only%2Fazuredeploy.json)
+[![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fsassoftware%2Fazure-quickstart-templates%2Fdevelop-resources-only%2Fsas-viya-resources-only%2Fazuredeploy.json)
 
 This Quickstart is a reference architecture for users wanting to create a configurable, base set of Viya-ready resources in Azure. 
 
@@ -123,7 +123,7 @@ Prior to launching the Quickstart, the template provides the opportunity to supp
 ## Deployment Steps
 To deploy the template, click the "Deploy to Azure" button at the top of this document, or follow the instructions for a command-line (CLI) deployment using the scripts in the root of this repository.
 
-The deployment takes approximately 30-45 minutes to complete.
+The deployment takes approximately 10-20 minutes to complete.
 
 
 <a name="post-deployment-details"></a>
@@ -131,8 +131,7 @@ The deployment takes approximately 30-45 minutes to complete.
 
 <a name="ansible-controller-public-ip"></a>
 ### Obtaining the Ansible Controller Public IP
-The public IP address used to log into the Ansible controller can be obtained from the Azure Portal by viewing clicking Deployments->azuredeploy, then [Outputs](outputs.png) in the left panel.
-
+The public IP address of the Ansible controller can be obtained by clicking **Outputs** in the left panel of the finished deployment.
 
 <a name="useraccounts"></a>
 ### User Accounts
@@ -161,13 +160,11 @@ You are responsible for the cost of any licensed SAS software and the Azure serv
 Your SAS account team and the SAS Enterprise Excellence Center can advise on the appropriate software licensing and sizing to meet workload and performance needs.
 
 
-
 <a name="best-practices"></a>
 ## Best Practices for Deployments on Azure
 We recommend the following as best practices:
 * Create a separate resource group for each Quickstart deployment. For more information, see [Resource groups](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview#resource-groups).
 * In resource groups that contain a Quickstart deployment, include only the Quickstart deployment in the resource group to facilitate the deletion of the deployment as a unit.
-
 
 
 <a name="troubleshooting"></a>
