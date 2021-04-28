@@ -1,4 +1,4 @@
-# SAS Infrastructure-Only Quickstart Template for Azure
+# SAS Resources-Only Quickstart Template for Azure
 
 [![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsassoftware%2Fazure-quickstart-templates%2Fdevelop-resources-only%2Fsas-viya-resources-only%2Fazuredeploy.json)
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fsassoftware%2Fazure-quickstart-templates%2Fdevelop-resources-only%2Fsas-viya-resources-only%2Fazuredeploy.json)
@@ -8,7 +8,7 @@ This Quickstart is a reference architecture for users wanting to create a config
 For assistance with SAS software, contact  [SAS Technical Support](https://support.sas.com/en/technical-support.html). When you contact support, you will be required to provide information, such as your SAS site number, company name, email address, and phone number, that identifies you as a licensed SAS software customer. 
  
 ## Contents
-- [SAS Infrastructure-Only Quickstart Template for Azure](#sas-infrastructure-only-quickstart-template-for-azure)
+- [SAS Resources-Only Quickstart Template for Azure](#sas-resources-only-quickstart-template-for-azure)
   - [Contents](#contents)
   - [Overview](#overview)
   - [Architecture](#architecture)
@@ -32,7 +32,7 @@ For assistance with SAS software, contact  [SAS Technical Support](https://suppo
 <a name="overview"></a>
 ## Overview
 
-The purpose of this Quickstart is to create a customizable set of Azure resources which can serve as an infrastructure onto which SAS Viya components can be readily installed.
+The purpose of this Quickstart is to create a customizable set of Azure resources which can serve as an infrastructure onto which SAS software components can be readily installed.
 
 The Quickstart provides the ability to select among several predetermined groups of resource options such as VM sizing (vCPU, memory, etc.), number of data disks, storage type, and accelerated networking.  
 
@@ -41,7 +41,7 @@ In addition, when this template is deployed the Microsoft Usage Attribution GUID
 <a name="architecture"></a>
 ## Architecture
 
-The SAS Infrastructure-Only Quickstart Template creates the virtual machines, networking resources, and other associated infrastructure necessary to support the intallation of SAS Viya.
+The SAS Resources-Only Quickstart Template creates the virtual machines, networking resources, and other associated infrastructure necessary to support the intallation of SAS software.
 
 When the Quickstart is deployed with the default template parameters, the following environment is created in the specified Azure resource group:
 
@@ -64,24 +64,32 @@ All of the non-Ansible VMs are minimally configured -- SSH and Ansible access ha
 
 <a name="prerequisites"></a>
 ## Prerequisites
-Before deploying SAS Infrastructure-Only Quickstart Template for Azure, you must have the following:
-* Azure user account with Contributor and Admin Roles
-* Sufficient quota of at least 28 Cores, based on four licensed SAS cores in an SMP environment.  In MPP environments, apply this sizing to the CAS workers as well as the CAS controller.
+Before deploying SAS Resources-Only Quickstart Template for Azure, you must have the following:
+* An Azure user subscription with Contributor and Admin Roles
 * A resource group that does not already contain a Quickstart deployment. For more information, see [Resource groups](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview#resource-groups).
 
 
 <a name="resource-sizing-options"></a>
 ## Resource Sizing Options
-This Quickstart provides the ability specify the overall sizing of provisioned resources using a single template parameter, named **resourceProfile**. 
+This Quickstart provides the ability to specify an overall sizing of the provisioned resources using a single template parameter, named **resourceProfile**. 
 
 Each possible value for this parameter represents a predetermined group of sizing options for VMs, networking, and storage. The following shows the resource options that correspond to each value:   
 
-| resourceProfile | Ansible VM    | CAS, Services, Worker | Accelerated Networking | Data Disk Type | Data Disk Size | Data Disk Count |
-| -------------   | ------------- | -------------         | -------------          | ------------- |-------------    | -------------   |
-|basic            | Standard_B2s  | Standard_E8s_v3       | no                     | Premium_LRS   | 256 GB          | 1 |
-|memOptimized1    | Standard_B2s  | Standard_E16s_v3      | yes                    | Premium_LRS   | 1024 GB         | 4 |
-|memOptimized2    | Standard_B2s  | Standard_E32s_v3      | yes                    | Premium_LRS   | 1024 GB         | 4 |
-|storageOptimized | Standard_B2s  | Standard_L16s_v2      | yes                    | Premium_LRS   | 1024 GB         | 3 |
+### CAS and Services controllers, Worker VMs
+| resourceProfile  | CAS, Services, Worker | Memory (GiB)  | Temp Storage (GiB) | Internal Drive  | Data Disk Size | Data Disk Count | Accelerated Networking |
+| -------------    | -------------         | ------------- | -------------      | ----------      |-------------   | -------------   | -------------          | 
+|basic             | Standard_E8s_v3       | 64            | 128                | SSD, 512GB      | 256 GB         | 1               | no                     |
+|memOptimized1     | Standard_E16s_v3      | 128           | 256                | SSD, 512GB      | 1024 GB        | 3               | yes                    |
+|memOptimized2     | Standard_E32s_v3      | 256           | 512                | SSD, 512GB      | 1024 GB        | 4               | yes                    |
+|storageOptimized1 | Standard_L16s_v2      | 128           | 160*               | MVMe, 1.92TB(2) | 1024 GB        | 3               | yes                    |
+|storageOptimized2 | Standard_L32s_v2      | 256           | 320*               | MVMe, 1.92TB(4) | 1024 GB        | 4               | yes                    |
+
+\* Lsv2-series VMs have a standard SCSI based temp resource disk to ensure the NVMe drives can be fully dedicated to application use.
+
+### Ansible controller
+| resourceProfile | VM SKU        | OS Disk (GiB)  | Data Disk Type | Data Disk Size | Data Disk Count | Accelerated Networking |
+| -------------   | ------------- | -------        | -------------  | -------------  |-------------    | -------------          |
+| all             | Standard_B2s  | 64             | n/a            | n/a            | 0               | no                     |
 
 
 <a name="template-parameters"></a>
@@ -179,7 +187,7 @@ We recommend the following as best practices:
 
 <a name="network-security-groups"></a>
 ### Network Security Groups 
-SAS Infrastructure-Only Quickstart Template for Azure creates the following network security groups to control access to the servers sources outside the virtual network. All server to server communication between subnets in the virtual network is permitted.
+SAS Resources-Only Quickstart Template for Azure creates the following network security groups to control access to the servers sources outside the virtual network. All server to server communication between subnets in the virtual network is permitted.
 
 | Name   | Ingress Rules| Egress Rules | Servers/Load Balancers | Notes |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
@@ -197,6 +205,10 @@ When you deploy this template, Microsoft is able to identify the installation of
 <a name="appendix-c-additional-resources"></a>
 ## Appendix C: Additional Resources
 
-[SAS Viya 3.5 for Linux: Deployment Guide](https://go.documentation.sas.com/?docsetId=dplyml0phy0lax&docsetTarget=soe.htm&docsetVersion=3.5&locale=en)
-
 [Best Practices for Using Microsoft Azure with SAS](https://communities.sas.com/t5/Administration-and-Deployment/Best-Practices-for-Using-Microsoft-Azure-with-SAS/m-p/676833#M19680)
+
+[Azure Storage for SAS Architects](https://communities.sas.com/t5/SAS-Communities-Library/Azure-Storage-for-SAS-Architects/ta-p/681162)
+
+[Sizes for virtual machines in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes)
+
+[SAS Viya 3.5 for Linux: Deployment Guide](https://go.documentation.sas.com/?docsetId=dplyml0phy0lax&docsetTarget=soe.htm&docsetVersion=3.5&locale=en)

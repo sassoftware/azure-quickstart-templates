@@ -10,7 +10,8 @@
         "basic",
         "memOptimized1",
         "memOptimized2",
-        "storageOptimized"
+        "storageOptimized1",
+        "storageOptimized2"
       ],
       "metadata": {
           "description": "Specify a set of resource sizing and configuration values."
@@ -92,7 +93,7 @@
         "acceleratedNetworking": true,
         "dataDisktype": "Premium_LRS",
         "dataDiskSize": 1024,
-        "dataDiskCount": 4
+        "dataDiskCount": 3
       },
       "memOptimized2": {
         "Ansible_VM_SKU": "Standard_B2s",
@@ -104,7 +105,7 @@
         "dataDiskSize": 1024,
         "dataDiskCount": 4
       },
-      "storageOptimized": {
+      "storageOptimized1": {
         "Ansible_VM_SKU": "Standard_B2s",
         "Services_VM_SKU": "Standard_L16s_v2",
         "Controller_VM_SKU": "Standard_L16s_v2",
@@ -113,6 +114,16 @@
         "dataDisktype": "Premium_LRS",
         "dataDiskSize": 1024,
         "dataDiskCount": 3
+      },
+      "storageOptimized2": {
+        "Ansible_VM_SKU": "Standard_B2s",
+        "Services_VM_SKU": "Standard_L32s_v2",
+        "Controller_VM_SKU": "Standard_L32s_v2",
+        "CAS_Worker_VM_SKU": "Standard_L32s_v2",
+        "acceleratedNetworking": true,
+        "dataDisktype": "Premium_LRS",
+        "dataDiskSize": 1024,
+        "dataDiskCount": 4
       }
     }
   },
