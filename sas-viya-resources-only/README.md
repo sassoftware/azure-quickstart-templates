@@ -3,9 +3,11 @@
 [![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsassoftware%2Fazure-quickstart-templates%2Fdevelop-resources-only%2Fsas-viya-resources-only%2Fazuredeploy.json)
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fsassoftware%2Fazure-quickstart-templates%2Fdevelop-resources-only%2Fsas-viya-resources-only%2Fazuredeploy.json)
 
-This Quickstart is a reference architecture for users wanting to create a configurable, base set of Viya-ready resources in Azure. 
+The SAS Resources-Only Quickstart is an ARM template for users wanting to create an Azure resource group ready for installation of Viya 3.x. 
 
-For assistance with SAS software, contact  [SAS Technical Support](https://support.sas.com/en/technical-support.html). When you contact support, you will be required to provide information, such as your SAS site number, company name, email address, and phone number, that identifies you as a licensed SAS software customer. 
+The resources created are based upon the user's choice between optimizing for either memory or storage. No SAS software is installed by the Quickstart, and management of the Azure resources is the responsibility of the user.
+
+**Please Note:** This Quickstart is strictly **experimental**, and as such, is not suitable for production use.
  
 ## Contents
 - [SAS Resources-Only Quickstart Template for Azure](#sas-resources-only-quickstart-template-for-azure)
