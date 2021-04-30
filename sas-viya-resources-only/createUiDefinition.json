@@ -3,13 +3,17 @@
     "handler": "Microsoft.Azure.CreateUIDef",
     "version": "0.1.2-preview",
     "parameters": {
-        "config": {
-            "isWizard": false,
-            "basics": {
-               "description": "**Please Note:** This Quickstart is strictly **experimental** and not suitable for production use."
+        "basics": [ 
+	  {
+            "name": "disclaimer",
+            "type": "Microsoft.Common.InfoBox",
+            "visible": true,
+            "options": {
+              "icon": "Warning",
+              "text": "Please Note: This Quickstart is strictly experimental, and thus not suitable for production use."
             }
-        },
-        "basics": [ ],
+	  }
+	],
         "steps": [ ],
         "outputs": { },
         "resourceTypes": [ ]
