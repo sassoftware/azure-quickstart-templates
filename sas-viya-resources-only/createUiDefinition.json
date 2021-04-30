@@ -6,8 +6,8 @@
         "config": {
             "isWizard": false,
             "basics": {
-	       "description": "**Please Note:** This Quickstart is strictly **experimental** and not suitable for production use."
-	    }
+               "description": "**Please Note:** This Quickstart is strictly **experimental** and not suitable for production use."
+            }
         },
         "basics": [ ],
         "steps": [ ],
