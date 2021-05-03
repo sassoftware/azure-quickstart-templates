@@ -12,10 +12,122 @@
               "icon": "Warning",
               "text": "Please Note: This Quickstart is strictly experimental, and thus not suitable for production use."
             }
-	  }
+	  },
+          {
+            "name": "resourceProfile",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Resource Profile",
+            "defaultValue": "basic",
+            "toolTip": "Number of peer nodes in the indexer cluster",
+            "constraints": {
+            "allowedValues": [
+              {
+                "label": "basic",
+                "value": "basic"
+              },
+              {
+                "label": "memOptimized1",
+                "value": "memOptimized1"
+              },
+              {
+                "label": "memOptimized2",
+                "value": "memOptimized2"
+              },
+              {
+                "label": "storageOptimized1",
+                "value": "storageOptimized1"
+              },
+              {
+                 "label": "storageOptimized2",
+                 "value": "storageOptimized2"
+              }
+            ]
+            },
+            "visible": true
+          },
+          {
+            "name": "nodeCount",
+            "type": "Microsoft.Common.DropDown",
+            "label": "CAS Node Count",
+            "defaultValue": "1",
+            "toolTip": "Number of CAS worker nodes",
+            "constraints": {
+            "allowedValues": [
+              {
+                "label": "1",
+                "value": 1
+              },
+              {
+                "label": "2",
+                "value": 2
+              },
+              {
+                "label": "3",
+                "value": 3
+              },
+              {
+                "label": "4",
+                "value": 4
+              },
+              {
+                 "label": "5",
+                 "value": 5
+              }
+            ]
+            },
+            "visible": true
+          },
+          {
+            "name": "SSHPublicKey",
+            "type": "Microsoft.Common.TextBox",
+            "label": "SSH Public Key",
+            "defaultValue": "",
+            "toolTip": "",
+            "visible": true
+          },
+          {
+            "name": "Location",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Location",
+            "defaultValue": "",
+            "toolTip": "",
+            "visible": true
+          },
+          {
+            "name": "AdminIngressLocation",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Admin Ingress Location",
+            "defaultValue": "",
+            "toolTip": "",
+            "visible": true
+          },
+          {
+            "name": "artifactsLocationSasToken",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Artifacts Location Sas Token",
+            "defaultValue": "",
+            "toolTip": "",
+            "visible": true
+          },
+          {
+            "name": "artifactsLocation",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Artifacts Location",
+            "defaultValue": "",
+            "toolTip": "",
+            "visible": true
+          }
 	],
         "steps": [ ],
-        "outputs": { },
+        "outputs": {
+          "resourceProfile": "[basics('resourceProfile')]",
+	  "CAS Node Count": "[basics('nodeCount')]",
+          "SSHPublicKey": "[basics('SSHPublicKey')]",
+          "location": "[basics('location')]",
+          "AdminIngressLocation": "[basics('AdminIngressLocation')]",
+          "_artifactsLocationSasToken": "[basics('artifactsLocationSasToken')]",
+          "_artifactsLocation": "[basics('artifactsLocation')]"
+	},
         "resourceTypes": [ ]
     }
 }
