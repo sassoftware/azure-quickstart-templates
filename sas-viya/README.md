@@ -1,4 +1,4 @@
-# SAS Viya 3.5 Quickstart Template for Azure
+# SAS Viya Quickstart Template for Azure
 
 ![Azure Public Test Date](https://azurequickstartsservice.blob.core.windows.net/badges/sas-viya/PublicLastTestDate.svg)
 ![Azure Public Test Result](https://azurequickstartsservice.blob.core.windows.net/badges/sas-viya/PublicDeployment.svg)
@@ -9,12 +9,12 @@
 ![Best Practice Check](https://azurequickstartsservice.blob.core.windows.net/badges/sas-viya/BestPracticeResult.svg)
 ![Cred Scan Check](https://azurequickstartsservice.blob.core.windows.net/badges/sas-viya/CredScanResult.svg)
 
-[![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsas-viya%2Fazuredeploy.json)
-[![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fsas-viya%2Fazuredeploy.json)
+[![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-quickstart-templates%2Fmaster%2Fsas-viya%2F%2Fazuredeploy.json) 
+[![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%sas-viya%2Fazuredeploy.json)
 
-**Note:** For the current operational status of this Quickstart, click [here](https://github.com/sassoftware/azure-quickstart-templates/tree/master/sas-viya) to redirect to the SAS repository.
+**Note:** For the current operational status of this Quickstart, click [here](https://github.com/sassoftware/quickstart-sas-viya-azure/tree/master) to redirect to the SAS repository.
 
-This README for SAS Viya 3.5 Quickstart Template for Azure is used to deploy the following SAS Viya 3.5 products in the Azure cloud:
+This README for  SAS Viya Quickstart Template for Azure is used to deploy the following SAS Viya products in the Azure cloud:
 
 * SAS Visual Analytics 8.5 on Linux
 * SAS Visual Statistics 8.5 on Linux
@@ -26,7 +26,7 @@ This Quickstart is a reference architecture for users who want to deploy the SAS
 For assistance with SAS software, contact  [SAS Technical Support](https://support.sas.com/en/technical-support.html).   When you contact support, you will be required to provide information, such as your SAS site number, company name, email address, and phone number, that identifies you as a licensed SAS software customer. 
  
 ## Contents
-- [SAS Viya 3.5 Quickstart Template for Azure](#sas-viya-quickstart-template-for-azure)
+- [SAS Viya Quickstart Template for Azure](#sas-viya-quickstart-template-for-azure)
   - [Contents](#contents)
   - [Solution Summary](#solution-summary)
     - [Costs and Licenses](#costs-and-licenses)
@@ -36,7 +36,7 @@ For assistance with SAS software, contact  [SAS Technical Support](https://suppo
     - [Upload the License File to an Azure Blob](#upload-the-license-file-to-an-azure-blob)
     - [(Optional) Create a Mirror Repository](#optional-create-a-mirror-repository)
     - [Upload the Entire Mirror to Azure Blob Storage](#upload-the-entire-mirror-to-azure-blob-storage)
-  - [Best Practices When Deploying SAS Viya 3.5 on Azure](#best-practices-when-deploying-sas-viya-35-on-azure)
+  - [Best Practices When Deploying SAS Viya on Azure](#best-practices-when-deploying-sas-viya-on-azure)
   - [Deployment Steps](#deployment-steps)
   - [Additional Deployment Details](#additional-deployment-details)
   - [User Accounts](#user-accounts)
@@ -82,27 +82,27 @@ For assistance with SAS software, contact  [SAS Technical Support](https://suppo
 ## Solution Summary
 By default, Quickstart deployments enable Transport Layer Security (TLS) for secure communication.
 
-This SAS Viya 3.5 Quickstart Template for Azure will take a SAS provided license package for SAS Viya 3.5 and deploy SAS into its own network. The deployment creates the network and other infrastructure.  After the deployment process completes, you will have the outputs for the web endpoints for a SAS Viya 3.5 deployment on recommended virtual machines (VMs). 
+This SAS Viya Quickstart Template for Azure will take a generic license for SAS Viya and deploy SAS into its own network. The deployment creates the network and other infrastructure.  After the deployment process completes, you will have the outputs for the web endpoints for a SAS Viya deployment on recommended virtual machines (VMs). 
 
-When you deploy the Quickstart with default parameters in a symmetric multiprocessing (SMP) environment, the following SAS Viya 3.5 environment is built in the Microsoft Azure cloud, shown in Figure 1.  In SMP environments, the **CAS Node Count** parameter is set to one, indicating that only one CAS controller is configured.
+When you deploy the Quickstart with default parameters in a symmetric multiprocessing (SMP) environment, the following SAS Viya environment is built in the Microsoft Azure cloud, shown in Figure 1.  In SMP environments, the **CAS Node Count** parameter is set to one, indicating that only one CAS controller is configured.
 
 ![Network Diagram](sas-viya-smp-architecture-diagram.svg)
 
-Figure 1: Quickstart architecture for SAS Viya 3.5 on Azure in an SMP Environment
+Figure 1: Quickstart architecture for SAS Viya on Azure in an SMP Environment
 
-When you deploy the Quickstart with default parameters in a massively parallel processing (MPP) environment, the following SAS Viya 3.5 environment is built in the Microsoft Azure cloud, shown in Figure 2.  In MPP environments, the **CAS Node Count** parameter is set to a value of 2 or more, indicating the number of CAS workers that are configured in addition to the CAS controller. 
+When you deploy the Quickstart with default parameters in a massively parallel processing (MPP) environment, the following SAS Viya environment is built in the Microsoft Azure cloud, shown in Figure 2.  In MPP environments, the **CAS Node Count** parameter is set to a value of 2 or more, indicating the number of CAS workers that are configured in addition to the CAS controller. 
 
 ![Network Diagram](sas-viya-mpp-architecture-diagram.svg)
 
-Figure 2: Quickstart architecture for SAS Viya 3.5 on Azure in an MPP Environment
+Figure 2: Quickstart architecture for SAS Viya on Azure in an MPP Environment
 
 For details, see [SAS Viya 3.5 for Linux: Deployment Guide](https://go.documentation.sas.com/?docsetId=dplyml0phy0lax&docsetTarget=soe.htm&docsetVersion=3.5&locale=en).
 
 <a name="Costs"></a>
 ### Costs and Licenses
 You are responsible for the cost of the Azure services used while running this Quickstart deployment. There is no additional cost for using the Quickstart.
-You will need a SAS license {emailed from SAS as `SAS_Viya_deployment_data.zip`} in order to launch this Quickstart. Your SAS account team and the SAS Enterprise Excellence Center can advise on the appropriate software licensing and sizing to meet workload and performance needs.
-SAS Viya 3.5 Quickstart Template for Azure creates three instances, including: 
+You will need a SAS license to launch this Quickstart. Your SAS account team and the SAS Enterprise Excellence Center can advise on the appropriate software licensing and sizing to meet workload and performance needs.
+SAS Viya Quickstart Template for Azure creates three instances, including: 
 * 1 compute virtual machine (VM), the Cloud Analytic Services (CAS) controller
 * 1 VM for administration, the Ansible controller
 * 1 VM for the SAS Viya services
@@ -123,7 +123,7 @@ If you are installing VDMML or a similarly large installation, we  recommend tha
 
 <a name="Prerequisites"></a>
 ## Prerequisites
-Before deploying SAS Viya 3.5 Quickstart Template for Azure, you must have the following:
+Before deploying SAS Viya Quickstart Template for Azure, you must have the following:
 * Azure user account with Contributor and Admin Roles
 * Sufficient quota of at least 28 Cores, based on four licensed SAS cores in an SMP environment.  In MPP environments, apply this sizing to the CAS workers as well as the CAS controller.
 * A SAS Software Order Confirmation Email that contains supported Quickstart products:
@@ -131,24 +131,23 @@ Before deploying SAS Viya 3.5 Quickstart Template for Azure, you must have the f
  		SAS Visual Analytics 8.5 on Linux
 		SAS Visual Statistics 8.5 on Linux
         SAS Visual Data Mining and Machine Learning 8.5 on Linux
-*  The license file {emailed from SAS as `SAS_Viya_deployment_data.zip`} which describes your SAS Software Order and is uploaded to an Azure Blob (see below)
+*  The license file in .zip format from your software order uploaded to an Azure blob
 *  Verification that your required SAS Viya file upload sizes do not exceed the limits of the Application Gateway. For details about limits, see 
 ["Application Gateway limits."](https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits?toc=%2fazure%2fapplication-gateway%2ftoc.json#application-gateway-limits)
 * A resource group that does not already contain a Quickstart deployment. For more information, see [Resource groups](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview#resource-groups).
 
 <a name="License"></a>
 ### Upload the License File to an Azure Blob
-The QuickStart deployment requires a parameter `Deployment Data Location`, which is the Shared Access Signature (SAS) URI for the SAS Softwared License. 
+When you run the deployment, you will need the blob Shared Access Signature (SAS) URL as a parameter. 
 
-1. Upload the `SAS_Viya_deployment_data.zip` {emailed from SAS} to Azure Blob Storage.  It's suggested that you create a Blob directory named `license` with a single object `SAS_Viya_deployment_data.zip`.  Follow the Microsoft Azure instructions to 
+Before you run the deployment:
+1. Upload the license file to Azure Blob Storage.  Follow the Microsoft Azure instructions to 
 ["Create a Container"](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container) and 
 ["Upload a Block Blob."](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#upload-a-block-blob)
 
-2. Create a Shared Access Signature (SAS) URI token: 
-    * From the Azure Portal | Storage Account | Storage Explorer (preview), navigate to the Blob directory named `license` (assuming you followed the suggestion)
-    * Right click and select **Generate Shared Access Signature**
-    * Review the settings, ensure Read & List are checked, then click **Create** token
-    * Copy the URI and save it to be used as a Parameter in the QuickStart.
+2. Create a Shared Access Signature (SAS) token. Follow these steps to create a Service SAS: 
+    * Navigate to the license file blob and select **Generate SAS**, and then click **Generate blob SAS** token and URL.
+    * Make a note of the blob SAS URL for use during deployment.
     
 For details, see ["Using Shared Access Signatures."](https://docs.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1)
 
@@ -174,7 +173,7 @@ az storage blob upload-batch --account-name "$STORAGE_ACCOUNT" --account-key "$S
 **Note** For the mirror storage, use the same storage account that you used for the license file in ["Upload the License Zip file."](#license)
 
 <a name="Best-Practices"></a>
-## Best Practices When Deploying SAS Viya 3.5 on Azure
+## Best Practices When Deploying SAS Viya on Azure
 We recommend the following as best practices:
 * Create a separate resource group for each Quickstart deployment. For more information, see [Resource groups](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview#resource-groups).
 * In resource groups that contain a Quickstart deployment, include only the Quickstart deployment in the resource group to facilitate the deletion of the deployment as a unit.
@@ -224,7 +223,7 @@ If you have acquired a new domain name or are using an existing domain name, you
 
 <a name="DataSources"></a>
 ### Enable Access to Existing Data Sources
-To access an existing data source from your SAS Viya 3.5 deployment, add an inbound rule to each security group or firewall for the data source as follows:
+To access an existing data source from your SAS Viya deployment, add an inbound rule to each security group or firewall for the data source as follows:
 *  If your data source is accessed via the public internet, add a public IP to the SAS Viya services VM and SAS Viya controller VM. Add an Allow rule to your data source for both the services VM and controller VM  public IP addresses. When creating the public IP addresses for each SAS Viya VM, a Static IP using the "Standard" SKU is recommended. For details, see
  ["Create, change, or delete a public IP address."](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-public-ip-address)
 
@@ -295,7 +294,7 @@ EnableQuotedIdentifiers=0
 
       a. Obtain the public IP of the SAS Data agent firewall. The SAS Data Agent firewall address is either the public IP of the machine where the HTTPS service is running or the public IP of the NAT that routes outgoing traffic in the SAS Data Agent network.
 
-      b. Modify the security group of the Application Gateway. By default, this is called "PrimaryViyaLoadbalancer_NetworkSecurityGroup" and will be under the resource group of your SAS Viya 3.5 deployment. Add an inbound rule for port 443 for the public IP that is specified in step 2a.
+      b. Modify the security group of the Application Gateway. By default, this is called "PrimaryViyaLoadbalancer_NetworkSecurityGroup" and will be under the resource group of your SAS Viya deployment. Add an inbound rule for port 443 for the public IP that is specified in step 2a.
       
 3. To verify that the connection works, on the machine assigned to the [httpproxy] host group in the Ansible inventory file in your SAS Data Agent environment:
    ``` 
@@ -317,7 +316,7 @@ EnableQuotedIdentifiers=0
     
    If the output from the nc command contains "Ncat: Connected to <IP_address:443>", the connection was successful.
    
-6. Register the SAS Data Agent with the SAS Viya 3.5 environment. As the deployment vmuser, log on to the Ansible controller VM and run the following command from the /sas/install/ansible/sas_viya_playbook directory:
+6. Register the SAS Data Agent with the SAS Viya environment. As the deployment vmuser, log on to the Ansible controller VM and run the following command from the /sas/install/ansible/sas_viya_playbook directory:
 
 **Note:** The password of the admin user is the value that you specified during deployment for the SASAdminPass input parameter. 
 
@@ -333,7 +332,7 @@ EnableQuotedIdentifiers=0
        -i "/sas/install/ansible/sas_viya_playbook/inventory.ini"
    ```
 
-7. Register the SAS Viya 3.5 environment with the SAS Data Agent. Copy the following file from the Ansible controller in your SAS Viya 3.5 deployment into the playbook directory (sas_viya_playbook) in your SAS Data Agent deployment:
+7. Register the SAS Viya environment with the SAS Data Agent. Copy the following file from the Ansible controller in your SAS Viya deployment into the playbook directory (sas_viya_playbook) in your SAS Data Agent deployment:
 
    ``` 
    /sas/install/postconfig-helpers/dataagent2dataprep.yml
@@ -506,98 +505,78 @@ To list all users and groups:
 ldapsearch -x -h localhost -b "dc=sasviya,dc=com" 
 ```
 
-**Note:** All LDAP commands listed in this appendix will be issued from the services VM.
-
 <a name="AddBAddUser"></a>
-### Add a User
-1. Create the LDAP entry for the new user.
+### Add a User 
+1.	 Create a user file that contains all the user info: 
 
-    - Copy the following content into a new text file, which will be used as a template for values you provide:
-      ```
-      dn: uid=<newuser>,ou=users,dc=sasviya,dc=com
-      cn: <newuser>
-      givenName: <New>
-      sn: <User>
-      objectClass: top
-      objectClass: inetOrgPerson
-      objectClass: organizationalPerson
-      objectClass: posixAccount
-      loginShell: /bin/bash
-      uidNumber: <100000>
-      gidNumber: 100001
-      homeDirectory: /home/<newuser>
-      mail: <newuser>@services.viya.sas
-      displayName: <New User>
-      ```
-      **Note:** The file (which is in LDIF format), can have any base name. For this example, `add_user.ldif` will be used.
+**Note:**    You must increment the UID from the last one displayed by the ldapsearch command.
 
-    - Replace the values enclosed in angle brackets `(<>)` with information for the new user. The new value for `uidNumber` must be unique (use `ldapsearch` to display the existing values).
-    - Issue this command to add the new entry to the LDAP directory:
-      ```
-      ldapadd -x -W -h localhost -D "cn=admin,dc=sasviya,dc=com" -f /path/to/add_user.ldif 
-      ```
-      **Note:** You will be prompted for a password. For this (and subsequent) LDAP commands, use the SAS admin password that was specified when creating the deployment.
+   ```
+   dn: uid=newuser,ou=users,dc=sasviya,dc=com
+   cn: newuser
+   givenName: New
+   sn: User
+   objectClass: top
+   objectClass: inetOrgPerson
+   objectClass: organizationalPerson
+   objectClass: posixAccount
+   loginShell: /bin/bash
+   uidNumber: 100011
+   gidNumber: 100001
+   homeDirectory: /home/newuser
+   mail: newuser@services.viya.sas
+   displayName: New User  
+   ```
 
-2. Add the user as a member of the `sasusers` group (to enable access to SAS Viya products).
+2.	To add the entry to the directory: 
+   ```
+   ldapadd -x -h localhost -D "cn=admin,dc=sasviya,dc=com" -W -f /path/to/user/file 
+   ```
 
-   - Create another new text file (i.e. `add_to_group.ldif`) with the following contents:
-     ```
-     dn: cn=sasusers,ou=groups,dc=sasviya,dc=com
-     changetype: modify
-     add: memberUid
-     memberUid: <newuser>
-     -
-     add: member
-     member: uid=<newuser>,ou=users,dc=sasviya,dc=com
-     ```
-   - Replace the values in angle brackets `(<>)` with the CN value from the user LDIF file that you created in step 1.
-   - Issue this command to add the member to the group:
-     ```
-     ldapadd -x -W -h localhost -D "cn=admin,dc=sasviya,dc=com" -f /path/to/add_to_group.ldif
-     ```
+**Note:**    You will be prompted for the admin password (the same one you specified when you created the stack).
 
-3. Create home directories for the new user on both the services and controller VMs.
+3.	To enable the new user to access SAS Viya products, add the user as a member of the sasusers group by creating an ldif file with the following data:
+   ```
+   dn: cn=sasusers,ou=groups,dc=sasviya,dc=com
+   changetype: modify
+   add: memberUid
+   memberUid: newuser
 
-   - From the Ansible controller VM, issue the following commands:
-     ```
-     ssh services
-     sudo mkdir -p /home/<newuser>
-     sudo chown <newuser>:sasusers /home/<newuser>
-     exit
-   
-     ssh controller
-     sudo mkdir -p /home/<newuser>/casuser
-     sudo chown -R <newuser>:sasusers /home/<newuser>
-     exit
-     ```
-     **Note:**  Replace `<newuser>` with the CN value of the new user from the user LDIF file that you created in step 1.
-
-4. Set the new user's password (see next section)
+   add: member
+   member: uid=newuser,ou=users,dc=sasviya,dc=com
+   ldapadd -x -h localhost -D "cn=admin,dc=sasviya,dc=com" -W -f /path/to/user/file
+   ```
+4.	Add the home directories for your new user on the services and controller VMs. From the Ansible controller VM:
+   ```
+   ssh services
+   sudo mkdir -p /home/newuser
+   sudo chown newuser:sasusers /home/newuser
+   exit
+   ssh controller
+   sudo mkdir -p /home/newuser/casuser
+   sudo chown newuser:sasusers /home/newuser
+   sudo chown newuser:sasusers /home/newuser/casuser
+   exit
+   ```
 
 <a name="AddBPassword"></a>
-### Change or Set a Password
-Issue this command to change or set a user's password:
+### Change or Set a Password 
 ```
-ldappasswd -x -W -h localhost -s <password> -D cn=admin,dc=sasviya,dc=com  "uid=<user>,ou=users,dc=sasviya,dc=com" 
+ldappasswd -h localhost -s USERPASSWORD -W -D cn=admin,dc=sasviya,dc=com -x "uid=newuser,ou=users,dc=sasviya,dc=com" 
 ```
-   **Note:**  Replace `<password>` with the desired password, and `<user>` with the CN value of the user (to prevent the command
-   from being saved to the bash history, preface the command with a space). Alternately, use `-S` (instead of `-s`) to cause the command to prompt
-   for the password (avoiding the need to enter it on the command line).    
+**Note:**    To prevent the command from being saved to the bash history, preface this command with a space. The string following the -x should match the dn: attribute of the user.
 
 <a name="AddBDeleteUser"></a>
 ### Delete a User
-Issue this command to delete a user:
 ```
-ldapdelete -x -W -h localhost -D "cn=admin,dc=sasviya,dc=com" "uid=<user>,ou=users,dc=sasviya,dc=com"
+ldapdelete –h localhost -W -D "cn=admin,dc=sasviya,dc=com" "uid=newuser,ou=users,dc=sasviya,dc=com"
 ```
-   **Note:**  Replace `<user>` with the CN value of the user being deleted.
-
 <a name="Security"></a>
 ## Appendix C: Security Considerations
 
 <a name="nsc"></a>
 ###	Network Security Groups 
-SAS Viya 3.5 Quickstart for Azure uses the following network security groups to control access to the servers and load balancers from sources outside the virtual network. All server to server communication between subnets in the SAS Viya virtual network is permitted.
+SAS Viya Quickstart for Azure uses the following network security groups to control access to the servers and load balancers from sources outside the virtual network. All server to server communication between subnets in the SAS Viya virtual network is permitted.
 
 | Name   | Ingress Rules| Egress Rules | Servers/Load Balancers | Notes |
 | ------------- | ------------- | ------------- | ------------- | ------------- |

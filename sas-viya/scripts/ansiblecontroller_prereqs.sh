@@ -21,9 +21,9 @@ fi
 
 if ! type -p ansible;  then
    # install Ansible
-    curl --retry 10 --max-time 60 --fail --silent --show-error "https://bootstrap.pypa.io/pip/2.7/get-pip.py" -o "get-pip.py"
+    curl --retry 10 --max-time 60 --fail --silent --show-error "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
     sudo python get-pip.py
-    pip install 'ansible==2.9.14'
+    pip install 'ansible==2.7.10'
 fi
 yum install -y yum-utils
 yum install -y java-1.8.0-openjdk
@@ -36,7 +36,6 @@ sed -i -e '/Defaults    requiretty/{ s/.*/# Defaults    requiretty/ }' /etc/sudo
 echo "$(date)"
 echo "Creating the share on the storage account."
 yum install -y rh-python36 gcc time
-/opt/rh/rh-python36/root/usr/bin/pip install --upgrade pip
 /opt/rh/rh-python36/root/usr/bin/pip3 install azure-cli
 /opt/rh/rh-python36/root/usr/bin/az storage share create --name ${azure_storage_files_share} --connection-string "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=${azure_storage_account};AccountKey=${azure_storage_files_password}"
 
@@ -103,7 +102,7 @@ fi
 ##
 ## get Common Code
 ##
-COMMON_CODE_TAG="935901abb877e62a206d32d32d8aaafde6505f51"
+COMMON_CODE_TAG="002cbe7b3fdbc5474ea3f8cde7d2d3e6f5f4b3f4"
 RETRIES=10
 DELAY=10
 COUNT=1
