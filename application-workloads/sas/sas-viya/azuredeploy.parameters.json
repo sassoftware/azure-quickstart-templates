@@ -20,7 +20,7 @@
     "AdminIngressLocation": {
       "value": "149.173.0.0/16"
     },
-    "Primary User Name": {
+    "PrimaryUserName": {
       "value": "vmuser"
     }
   }
