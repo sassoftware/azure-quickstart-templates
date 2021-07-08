@@ -278,7 +278,7 @@
     {
       "name": "CreateNetwork",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkSecurityGroups', 'PrimaryViyaLoadbalancer_NetworkSecurityGroup')]"
       ],
@@ -699,7 +699,7 @@
     {
       "name": "AnsiblePhase1SetupHostForAnsible",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Compute/virtualMachines', 'Ansible')]"
       ],
@@ -732,7 +732,7 @@
     {
       "name": "AnsiblePhase2GetLBCertPart1",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase1SetupHostForAnsible')]"
       ],
@@ -764,7 +764,7 @@
     {
       "name": "AnsiblePhase3GetLBCertPart2",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase2GetLBCertPart1')]"
       ],
@@ -796,7 +796,7 @@
     {
       "name": "AnsiblePhase4PreViyaInstall",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase3GetLBCertPart2')]"
       ],
@@ -828,7 +828,7 @@
     {
       "name": "AnsiblePhase5GetCACert",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase4PreViyaInstall')]"
       ],
@@ -860,7 +860,7 @@
     {
       "name": "AnsiblePhase6Part1RunViyaInstall",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase5GetCACert')]"
       ],
@@ -892,7 +892,7 @@
     {
       "name": "AnsiblePhase6Part2RunViyaInstall",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase6Part1RunViyaInstall')]"
       ],
@@ -924,7 +924,7 @@
     {
       "name": "AnsiblePhase6Part3RunViyaInstall",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase6Part2RunViyaInstall')]"
       ],
@@ -956,7 +956,7 @@
     {
       "name": "AnsiblePhase7PostViyaInstall",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase6Part3RunViyaInstall')]"
       ],
@@ -988,7 +988,7 @@
     {
       "name": "AnsiblePhase8GetCASURIsFromLicense",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'AnsiblePhase7PostViyaInstall')]"
       ],
