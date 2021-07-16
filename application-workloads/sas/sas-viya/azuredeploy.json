@@ -1192,7 +1192,7 @@
         "protectedSettings": {
           "commandToExecute": "[ concat('set -o pipefail; ./nonansiblecontroller_prereqs.sh \"', parameters('PrimaryUserName'), '\" \"', variables('DiagnosticStorageGroupName'), '\" \"', variables('AzureFilesViyaShare'), '\" \"', listKeys(variables('DiagnosticStorageGroupName'),'2021-04-01').keys[0].value,'\" \"CasControllerServers\" 2>&1 | tee /tmp/prerequisites.log')]",
           "fileUris": [
-            "[concat(parameters('_artifactsLocation'), 'scripts/nonansiblecontroller_prereqs.sh', parameters('_artifactsLocationSasToken'))]"
+            "[uri(parameters('_artifactsLocation'), concat('scripts/nonansiblecontroller_prereqs.sh', parameters('_artifactsLocationSasToken')))]"
           ]
         }
       }
@@ -1348,7 +1348,7 @@
         "protectedSettings": {
           "commandToExecute": "[ concat('set -o pipefail; ./nonansiblecontroller_prereqs.sh \"', parameters('PrimaryUserName'), '\" \"', variables('DiagnosticStorageGroupName'), '\" \"', variables('AzureFilesViyaShare'), '\" \"', listKeys(variables('DiagnosticStorageGroupName'),'2021-04-01').keys[0].value,'\" \"CasControllerServers\" 2>&1 | tee /tmp/prerequisites.log')]",
           "fileUris": [
-            "[concat(parameters('_artifactsLocation'), 'scripts/nonansiblecontroller_prereqs.sh', parameters('_artifactsLocationSasToken'))]"
+            "[uri(parameters('_artifactsLocation'), concat('scripts/nonansiblecontroller_prereqs.sh', parameters('_artifactsLocationSasToken')))]"
           ]
         }
       },
@@ -1598,7 +1598,7 @@
         "protectedSettings": {
           "commandToExecute": "[ concat('set -o pipefail; ./nonansiblecontroller_prereqs.sh \"', parameters('PrimaryUserName'), '\" \"', variables('DiagnosticStorageGroupName'), '\" \"', variables('AzureFilesViyaShare'), '\" \"', listKeys(variables('DiagnosticStorageGroupName'),'2021-04-01').keys[0].value, '\" \"VisualServicesServers,ProgrammingServicesServers,StatefulServicesServers\" 2>&1 | tee /tmp/prerequisites.log')]",
           "fileUris": [
-            "[concat(parameters('_artifactsLocation'), 'scripts/nonansiblecontroller_prereqs.sh', parameters('_artifactsLocationSasToken'))]"
+            "[uri(parameters('_artifactsLocation'), concat('scripts/nonansiblecontroller_prereqs.sh', parameters('_artifactsLocationSasToken')))]"
           ]
         }
       }
